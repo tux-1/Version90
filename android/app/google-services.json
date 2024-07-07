@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "661601701051",
+    "project_id": "huci-project",
+    "storage_bucket": "huci-project.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:661601701051:android:76209e50c4f2acf652ed9e",
+        "android_client_info": {
+          "package_name": "com.example.flutter_project"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyChD9vfDqaoYsJbfZtHQYKdTZXy2F7XeC8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
