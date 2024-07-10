@@ -90,55 +90,55 @@ class StudentDataScreen extends StatelessWidget {
                                       children: [
                                         customUserDataItem(
                                           context: context,
-                                          txt: 'الاســــــــــم:',
+                                          txt: 'الاســــــــــم:', data: '',
                                         ),
                                         const SizedBox(
                                           height: 15.0,
                                         ),
                                         customUserDataItem(
                                           context: context,
-                                          txt: 'الكـــــــــــود:',
+                                          txt: 'الكـــــــــــود:', data: '',
                                         ),
                                         const SizedBox(
                                           height: 15.0,
                                         ),
                                         customUserDataItem(
                                           context: context,
-                                          txt: 'الديـــــــــانة:',
+                                          txt: 'الديـــــــــانة:', data: '',
                                         ),
                                         const SizedBox(
                                           height: 15.0,
                                         ),
                                         customUserDataItem(
                                           context: context,
-                                          txt: 'الجــــنــــس:',
+                                          txt: 'الجــــنــــس:', data: '',
                                         ),
                                         const SizedBox(
                                           height: 15.0,
                                         ),
                                         customUserDataItem(
                                           context: context,
-                                          txt: 'الجــنـســـية:',
+                                          txt: 'الجــنـســـية:', data: '',
                                         ),
                                         const SizedBox(
                                           height: 15.0,
                                         ),
                                         customUserDataItem(
                                             context: context,
-                                            txt: 'تاريخ الميـلاد:'),
+                                            txt: 'تاريخ الميـلاد:', data: ''),
                                         const SizedBox(
                                           height: 15.0,
                                         ),
                                         customUserDataItem(
                                           context: context,
-                                          txt: 'محل الميـلاد:',
+                                          txt: 'محل الميـلاد:', data: '',
                                         ),
                                         const SizedBox(
                                           height: 15.0,
                                         ),
                                         customUserDataItem(
                                           context: context,
-                                          txt: 'الرقم القومي:',
+                                          txt: 'الرقم القومي:', data: '',
                                         ),
                                         const SizedBox(
                                           height: 7.0,
@@ -182,28 +182,28 @@ class StudentDataScreen extends StatelessWidget {
                                       children: [
                                         customUserDataItem(
                                           context: context,
-                                          txt: 'العنـــــــــــــوان:',
+                                          txt: 'العنـــــــــــــوان:', data: '',
                                         ),
                                         const SizedBox(
                                           height: 15.0,
                                         ),
                                         customUserDataItem(
                                           context: context,
-                                          txt: 'التليفون الأرضي:',
+                                          txt: 'التليفون الأرضي:', data: '',
                                         ),
                                         const SizedBox(
                                           height: 15.0,
                                         ),
                                         customUserDataItem(
                                           context: context,
-                                          txt: 'المحمـــــــــــول:',
+                                          txt: 'المحمـــــــــــول:', data: '',
                                         ),
                                         const SizedBox(
                                           height: 15.0,
                                         ),
                                         customUserDataItem(
                                           context: context,
-                                          txt: 'البريد الإلكـتروني:',
+                                          txt: 'البريد الإلكـتروني:', data: '',
                                         ),
                                         const SizedBox(
                                           height: 7.0,
@@ -247,47 +247,47 @@ class StudentDataScreen extends StatelessWidget {
                                       children: [
                                         customUserDataItem(
                                           context: context,
-                                          txt: 'الاســــــــــم:',
+                                          txt: 'الاســــــــــم:', data: '',
                                         ),
                                         const SizedBox(
                                           height: 15.0,
                                         ),
                                         customUserDataItem(
                                           context: context,
-                                          txt: 'الرقم القومي:',
+                                          txt: 'الرقم القومي:', data: '',
                                         ),
                                         const SizedBox(
                                           height: 15.0,
                                         ),
                                         customUserDataItem(
-                                            context: context, txt: 'الوظيفة:'),
-                                        const SizedBox(
-                                          height: 15.0,
-                                        ),
-                                        customUserDataItem(
-                                          context: context,
-                                          txt: 'الجــنـســـية:',
-                                        ),
+                                            context: context, txt: 'الوظيفة:', data: ''),
                                         const SizedBox(
                                           height: 15.0,
                                         ),
                                         customUserDataItem(
                                           context: context,
-                                          txt: 'العنـــــــــــــوان:',
+                                          txt: 'الجــنـســـية:', data: '',
                                         ),
                                         const SizedBox(
                                           height: 15.0,
                                         ),
                                         customUserDataItem(
                                           context: context,
-                                          txt: 'المحمـــــــــــول:',
+                                          txt: 'العنـــــــــــــوان:', data: '',
                                         ),
                                         const SizedBox(
                                           height: 15.0,
                                         ),
                                         customUserDataItem(
                                           context: context,
-                                          txt: 'البريد الإلكـتروني:',
+                                          txt: 'المحمـــــــــــول:', data: '',
+                                        ),
+                                        const SizedBox(
+                                          height: 15.0,
+                                        ),
+                                        customUserDataItem(
+                                          context: context,
+                                          txt: 'البريد الإلكـتروني:', data: '',
                                         ),
                                         const SizedBox(
                                           height: 7.0,
@@ -331,28 +331,28 @@ class StudentDataScreen extends StatelessWidget {
                                       children: [
                                         customUserDataItem(
                                           context: context,
-                                          txt: 'المؤهــــــــل:',
+                                          txt: 'المؤهــــــــل:', data: '',
                                         ),
                                         const SizedBox(
                                           height: 15.0,
                                         ),
                                         customUserDataItem(
                                           context: context,
-                                          txt: 'المدرســــــة:',
+                                          txt: 'المدرســــــة:', data: '',
                                         ),
                                         const SizedBox(
                                           height: 15.0,
                                         ),
                                         customUserDataItem(
                                           context: context,
-                                          txt: 'سنة المؤهـل:',
+                                          txt: 'سنة المؤهـل:', data: '',
                                         ),
                                         const SizedBox(
                                           height: 15.0,
                                         ),
                                         customUserDataItem(
                                           context: context,
-                                          txt: 'الدرجـــــــــة:',
+                                          txt: 'الدرجـــــــــة:', data: '',
                                         ),
                                         const SizedBox(
                                           height: 7.0,

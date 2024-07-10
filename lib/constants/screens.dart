@@ -38,4 +38,5 @@ class Screens{
   static const String professorForm = '/professor_form';
   static const String adminstratorForm = '/adminstrator_Form';
   static const String studentAffairsForm = '/student_affairs_form';
+  static const String addAccounts = '/add_accounts';
 }

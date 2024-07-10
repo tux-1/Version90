@@ -7,6 +7,8 @@ import 'package:faculty_project/presentation/widget/custom_row_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../business_logic/admin_cubit/admin_state.dart';
+import '../../../../model/adminstrator_model.dart';
+import '../../login/login_screen.dart';
 
 class ProfessorForm extends StatelessWidget {
   const ProfessorForm({super.key});
@@ -14,11 +16,28 @@ class ProfessorForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) =>AdminCubit(),
-      child: BlocConsumer<AdminCubit,AdminState>(
-        listener: (BuildContext context,AdminState state) {  },
+      create: (BuildContext context) => AdminCubit(),
+      child: BlocConsumer<AdminCubit, AdminState>(
+        listener: (BuildContext context, AdminState state) {
+          if (state is AdminProfessorAdded) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('تم إضافة الأستاذ الجامعي بنجاح!')),
+            );
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const LoginScreen()), //edit here
+            );
+          } else if (state is AdminProfessorAddError) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('حدث خطأ أثناء إضافة الأستاذ الجامعي: ${state.error}')),
+            );
+          }
+        },
         builder: (BuildContext context, AdminState state) {
-          return  Scaffold(
+          final AdminCubit adminCubit = context.read<AdminCubit>();
+
+          return Scaffold(
             appBar: CustomAppBar(
               appBarWidget: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -27,14 +46,10 @@ class ProfessorForm extends StatelessWidget {
                   child: const Row(
                     children: [
                       Padding(
-                        padding: EdgeInsets.only(
-                          left: 10.0,
-                        ),
+                        padding: EdgeInsets.only(left: 10.0),
                         child: CircleAvatar(
                           backgroundColor: AppColor.carosalBG,
-                          child: Icon(
-                            Icons.person_outline,
-                          ),
+                          child: Icon(Icons.person_outline),
                         ),
                       ),
                       Spacer(),
@@ -62,31 +77,59 @@ class ProfessorForm extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       customBanner('أستاذ جامعي'),
-                      const SizedBox(
-                        height: 10.0,
-                      ),
-                      customInputData('الاســــــــــــــم:'),
-                      customInputData('الكـــــــــــــــود:'),
-                      customInputData('الديـــــــــــــانة:'),
-                      customInputData('الجنــــــــــــس:'),
-                      customInputData('الجنسـيــــــــــة:'),
-                      customInputData('تاريخ الميـــــلاد:'),
-                      customInputData('محل الميــــــلاد:'),
-                      customInputData('الرقم القومـــــي:'),
-                      customInputData('العنـــــــــــــوان:'),
-                      customInputData('التليفون الأرضي:'),
-                      customInputData('المحمــــــــــول:'),
-                      customInputData('البريد الإلكتروني:'),
+                      const SizedBox(height: 10.0),
+                      customInputData(txt: 'الاســــــــــــــم:',
+                          controller: adminCubit.professorNameController),
+                      customInputData(txt: 'الكـــــــــــــــود:',
+                          controller: adminCubit.professorCodeController),
+                      customInputData(txt: 'الديـــــــــــــانة:',
+                          controller: adminCubit.professorReligionController),
+                      customInputData(txt: 'الجنــــــــــــس:',
+                          controller: adminCubit.professorGenderController),
+                      customInputData(txt: 'الجنسـيــــــــــة:',
+                          controller: adminCubit.professorNationalityController),
+                      customInputData(txt: 'تاريخ الميـــــلاد:',
+                          controller: adminCubit.professorBirthDateController),
+                      customInputData(txt: 'محل الميــــــلاد:',
+                          controller: adminCubit.professorBirthPlaceController),
+                      customInputData(txt: 'الرقم القومـــــي:',
+                          controller: adminCubit.professorNationalIdController),
+                      customInputData(txt: 'العنـــــــــــــوان:',
+                          controller: adminCubit.professorAddressController),
+                      customInputData(txt: 'التليفون الأرضي:',
+                          controller: adminCubit.professorLandlineController),
+                      customInputData(txt: 'المحمــــــــــول:',
+                          controller: adminCubit.professorMobileController),
+                      customInputData(txt: 'البريد الإلكتروني:',
+                          controller: adminCubit.professorEmailController),
                       const SizedBox(
                         height: 10.0,
                       ),
                       Center(
                         child: IconButton(
-                          onPressed: () {},
-                          icon: const Icon(
-                            Icons.save,
-                            size: 30.0,
-                          ),
+                          onPressed: () {
+                            final administrator = Administrator(
+                              name: adminCubit.adminNameController.text,
+                              code: adminCubit.adminCodeController.text,
+                              religion: adminCubit.adminReligionController.text,
+                              gender: adminCubit.adminGenderController.text,
+                              nationality:
+                              adminCubit.adminNationalityController.text,
+                              birthDate:
+                              adminCubit.adminBirthDateController.text,
+                              birthPlace:
+                              adminCubit.adminBirthPlaceController.text,
+                              nationalId:
+                              adminCubit.adminNationalIdController.text,
+                              address: adminCubit.adminAddressController.text,
+                              phone: adminCubit.adminLandlineController.text,
+                              mobile: adminCubit.adminMobileController.text,
+                              email: adminCubit.adminEmailController.text,
+                            );
+                            adminCubit.addAdministrator(administrator);
+                            adminCubit.clearAdministratorControllers();
+                          },
+                          icon: const Icon(Icons.save, size: 30.0),
                         ),
                       ),
                       customRowButton(context: context, padding: 5.0),

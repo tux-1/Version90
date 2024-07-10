@@ -13,6 +13,7 @@ import 'package:faculty_project/presentation/screens/admin/admin_student_screens
 import 'package:faculty_project/presentation/screens/admin/admin_student_screens/admin_student_detail_screen.dart';
 import 'package:faculty_project/presentation/screens/admin/admin_student_screens/grade_report_screen.dart';
 import 'package:faculty_project/presentation/screens/admin/admin_students_group.dart';
+import 'package:faculty_project/presentation/screens/admin/new_registration/add_accounts.dart';
 import 'package:faculty_project/presentation/screens/admin/new_registration/adminstrator.dart';
 import 'package:faculty_project/presentation/screens/admin/new_registration/professor.dart';
 import 'package:faculty_project/presentation/screens/admin/new_registration/student.dart';
@@ -112,13 +113,15 @@ class AppRouter {
       case Screens.adminNewRegistration:
         return MaterialPageRoute(builder: (_) => const AdminNewRegistration());
       case Screens.studentForm:
-        return MaterialPageRoute(builder: (_) => const StudentForm());
+        return MaterialPageRoute(builder: (_) => StudentForm());
       case Screens.professorForm:
         return MaterialPageRoute(builder: (_) => const ProfessorForm());
       case Screens.adminstratorForm:
         return MaterialPageRoute(builder: (_) => const AdminstratorForm());
       case Screens.studentAffairsForm:
         return MaterialPageRoute(builder: (_) => const StudentAffairsForm());
+      case Screens.addAccounts:
+        return MaterialPageRoute(builder: (_) => const AddAccounts());
       default:
         return null;
     }

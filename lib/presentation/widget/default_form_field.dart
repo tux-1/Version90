@@ -22,12 +22,14 @@ Widget defaultFormField({
   bool isClickable = true,
   double borderRadius = 20.0,
   double fontSize = 16.0,
+  TextInputAction? textInputAction,
 }) =>
     TextFormField(
       style: TextStyle(
         fontSize: fontSize,
         color: textColor,
       ),
+      textInputAction:textInputAction ,
       controller: controller,
       keyboardType: type,
       obscureText: isPassword,

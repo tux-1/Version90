@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 Widget customInputData(
-  String txt,
-) {
+    {required TextEditingController controller,String? txt,Function(String)? onchange,}
+    ) {
   return Row(
     children: [
       Text(
-        txt,
+        txt!,
         style: const TextStyle(
           fontWeight: FontWeight.bold,
         ),
@@ -14,10 +14,12 @@ Widget customInputData(
       const SizedBox(
         width: 5.0,
       ),
-      const SizedBox(
+      SizedBox(
         width: 240,
         child: TextField(
-          decoration: InputDecoration(border: UnderlineInputBorder()),
+          //onChanged: onchange,
+          controller: controller,
+          decoration: const InputDecoration(border: UnderlineInputBorder()),
         ),
       ),
     ],

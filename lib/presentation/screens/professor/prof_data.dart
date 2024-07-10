@@ -5,7 +5,6 @@ import 'package:faculty_project/presentation/widget/custom_user_data_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../business_logic/prof_cubit/prof_cubit.dart';
-import '../../../constants/screens.dart';
 import '../../styles/colors.dart';
 
 class ProfDataScreen extends StatelessWidget {
@@ -19,7 +18,7 @@ class ProfDataScreen extends StatelessWidget {
         listener: (context, ProfState state) async {},
         builder: (context, ProfState state) {
           return Builder(builder: (context) {
-            final ProfCubit proftCubit = context.read<ProfCubit>();
+            final ProfCubit profCubit = context.read<ProfCubit>();
             return Scaffold(
               appBar: CustomAppBar(
                 appBarWidget: Padding(
@@ -92,55 +91,55 @@ class ProfDataScreen extends StatelessWidget {
                                       children: [
                                         customUserDataItem(
                                           context: context,
-                                          txt: 'الاســــــــــم:',
+                                          txt: 'الاســــــــــم:', data: '',
                                         ),
                                         const SizedBox(
                                           height: 15.0,
                                         ),
                                         customUserDataItem(
                                           context: context,
-                                          txt: 'الكـــــــــــود:',
+                                          txt: 'الكـــــــــــود:', data: '',
                                         ),
                                         const SizedBox(
                                           height: 15.0,
                                         ),
                                         customUserDataItem(
                                           context: context,
-                                          txt: 'الديـــــــــانة:',
+                                          txt: 'الديـــــــــانة:', data: '',
                                         ),
                                         const SizedBox(
                                           height: 15.0,
                                         ),
                                         customUserDataItem(
                                           context: context,
-                                          txt: 'الجــــنــــس:',
+                                          txt: 'الجــــنــــس:', data: '',
                                         ),
                                         const SizedBox(
                                           height: 15.0,
                                         ),
                                         customUserDataItem(
                                           context: context,
-                                          txt: 'الجــنـســـية:',
+                                          txt: 'الجــنـســـية:', data: '',
                                         ),
                                         const SizedBox(
                                           height: 15.0,
                                         ),
                                         customUserDataItem(
                                             context: context,
-                                            txt: 'تاريخ الميـلاد:'),
+                                            txt: 'تاريخ الميـلاد:', data: ''),
                                         const SizedBox(
                                           height: 15.0,
                                         ),
                                         customUserDataItem(
                                           context: context,
-                                          txt: 'محل الميـلاد:',
+                                          txt: 'محل الميـلاد:', data: '',
                                         ),
                                         const SizedBox(
                                           height: 15.0,
                                         ),
                                         customUserDataItem(
                                           context: context,
-                                          txt: 'الرقم القومي:',
+                                          txt: 'الرقم القومي:', data: '',
                                         ),
                                         const SizedBox(
                                           height: 7.0,
@@ -184,28 +183,28 @@ class ProfDataScreen extends StatelessWidget {
                                       children: [
                                         customUserDataItem(
                                           context: context,
-                                          txt: 'العنـــــــــــــوان:',
+                                          txt: 'العنـــــــــــــوان:', data: '',
                                         ),
                                         const SizedBox(
                                           height: 15.0,
                                         ),
                                         customUserDataItem(
                                           context: context,
-                                          txt: 'التليفون الأرضي:',
+                                          txt: 'التليفون الأرضي:', data: '',
                                         ),
                                         const SizedBox(
                                           height: 15.0,
                                         ),
                                         customUserDataItem(
                                           context: context,
-                                          txt: 'المحمـــــــــــول:',
+                                          txt: 'المحمـــــــــــول:', data: '',
                                         ),
                                         const SizedBox(
                                           height: 15.0,
                                         ),
                                         customUserDataItem(
                                           context: context,
-                                          txt: 'البريد الإلكـتروني:',
+                                          txt: 'البريد الإلكـتروني:', data: '',
                                         ),
                                         const SizedBox(
                                           height: 7.0,
