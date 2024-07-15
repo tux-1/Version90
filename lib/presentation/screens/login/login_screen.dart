@@ -24,7 +24,6 @@ class LoginScreen extends StatelessWidget {
             );
           } else if (state is LoginSuccess) {
             final globalCubit = context.read<GlobalCubit>();
-            print('Selected Type Value (on success): ${globalCubit.selectedTypeValue}');
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) {
@@ -199,7 +198,6 @@ class LoginScreen extends StatelessWidget {
                                                     groupValue: globalCubit.selectedTypeValue,
                                                     onChanged: (value) {
                                                       globalCubit.changeTypeSelection(value!);
-                                                      print('Radio Button Selected: $value');
                                                     },
                                                   ),
                                                 ),
