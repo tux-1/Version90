@@ -1,5 +1,8 @@
+
 import 'package:faculty_project/business_logic/admin_cubit/admin_cubit.dart';
 import 'package:faculty_project/business_logic/admin_cubit/admin_state.dart';
+import 'package:faculty_project/data/remote/firebase_auth_helper.dart';
+import 'package:faculty_project/model/account_type.dart';
 import 'package:faculty_project/presentation/screens/login/login_screen.dart';
 import 'package:faculty_project/presentation/styles/colors.dart';
 import 'package:faculty_project/presentation/widget/custom_app_bar.dart';
@@ -11,9 +14,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../model/student_model.dart';
 
 class StudentForm extends StatelessWidget {
-  const StudentForm({super.key});
-
-  
+  StudentForm({super.key});
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -23,15 +26,12 @@ class StudentForm extends StatelessWidget {
           if (state is AdminStudentAdded) {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
-                content: Text(
-                  'تم إضافة الطالب بنجاح!',
-                ),
+                content: Text('تم إضافة الطالب بنجاح!'),
               ),
             );
             Navigator.push(
               context,
-              MaterialPageRoute(
-                  builder: (context) => const LoginScreen()), //edit here
+              MaterialPageRoute(builder: (context) => const LoginScreen()),
             );
           } else if (state is AdminStudentAddError) {
             ScaffoldMessenger.of(context).showSnackBar(
@@ -84,34 +84,51 @@ class StudentForm extends StatelessWidget {
                     children: [
                       customBanner('طالب'),
                       const SizedBox(height: 10.0),
-                      customInputData(txt: 'الاســــــــــــــم:',
+                      customInputData(
+                          txt: 'الاســــــــــــــم:',
                           controller: adminCubit.studentNameController),
-                      customInputData(txt: 'الكـــــــــــــــود:',
+                      customInputData(
+                          txt: 'الكـــــــــــــــود:',
                           controller: adminCubit.studentCodeController),
-                      customInputData(txt: 'الديـــــــــــــانة:',
+                      customInputData(
+                          txt: 'الديـــــــــــــانة:',
                           controller: adminCubit.studentReligionController),
-                      customInputData(txt: 'الجنــــــــــــس:',
+                      customInputData(
+                          txt: 'الجنــــــــــــس:',
                           controller: adminCubit.studentGenderController),
-                      customInputData(txt: 'الجنسـيــــــــــة:',
+                      customInputData(
+                          txt: 'الجنسـيــــــــــة:',
                           controller: adminCubit.studentNationalityController),
-                      customInputData(txt: 'تاريخ الميـــــلاد:',
+                      customInputData(
+                          txt: 'تاريخ الميـــــلاد:',
                           controller: adminCubit.studentBirthDateController),
-                      customInputData(txt: 'محل الميــــــلاد:',
+                      customInputData(
+                          txt: 'محل الميــــــلاد:',
                           controller: adminCubit.studentBirthPlaceController),
-                      customInputData(txt: 'الرقم القومـــــي:',
+                      customInputData(
+                          txt: 'الرقم القومـــــي:',
                           controller: adminCubit.studentNationalIdController),
-                      customInputData(txt: 'العنـــــــــــــوان:',
+                      customInputData(
+                          txt: 'العنـــــــــــــوان:',
                           controller: adminCubit.studentAddressController),
-                      customInputData(txt: 'التليفون الأرضي:',
+                      customInputData(
+                          txt: 'التليفون الأرضي:',
                           controller: adminCubit.studentLandlineController),
-                      customInputData(txt: 'المحمــــــــــول:',
+                      customInputData(
+                          txt: 'المحمــــــــــول:',
                           controller: adminCubit.studentMobileController),
-                      customInputData(txt: 'البريد الإلكتروني:',
-                          controller: adminCubit.studentEmailController),
+                      customInputData(
+                          txt: 'البريد الإلكتروني:',
+                          controller: emailController),
+                      customInputData(
+                          txt: 'كلمة المرور:',
+                          controller: passwordController,
+                          obscureText: true), // حقل كلمة المرور
+
                       const SizedBox(height: 10.0),
                       Center(
                         child: IconButton(
-                          onPressed: () {
+                          onPressed: () async {
                             final student = Student(
                               name: adminCubit.studentNameController.text,
                               code: adminCubit.studentCodeController.text,
@@ -129,10 +146,21 @@ class StudentForm extends StatelessWidget {
                               address: adminCubit.studentAddressController.text,
                               phone: adminCubit.studentLandlineController.text,
                               mobile: adminCubit.studentMobileController.text,
-                              email: adminCubit.studentEmailController.text,
+                              email: emailController
+                                  .text, // استخدام البريد الإلكتروني
+                              password: passwordController
+                                  .text, // استخدام كلمة المرور
                             );
-                            adminCubit.addStudent(student);
+                            await FirebaseAuthHelper.createAccount(
+                              type: AccountType.student,
+                              email: emailController.text,
+                              password: passwordController.text,
+                            );
+                            await adminCubit.addStudent(student);
                             adminCubit.clearStudentControllers();
+                            emailController.clear();
+                            passwordController
+                                .clear(); // مسح حقل كلمة المرور بعد الإضافة
                           },
                           icon: const Icon(Icons.save, size: 30.0),
                         ),

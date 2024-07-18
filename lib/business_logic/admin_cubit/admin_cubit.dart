@@ -1,5 +1,6 @@
-import 'package:bloc/bloc.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../model/adminstrator_model.dart';
 import '../../model/affiars_model.dart';
 import '../../model/professor_model.dart';
@@ -9,17 +10,26 @@ import 'admin_state.dart';
 class AdminCubit extends Cubit<AdminState> {
   AdminCubit() : super(AdminInitial());
 
-  // Controllers for student form fields
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  // Controllers for form fields
   final TextEditingController studentNameController = TextEditingController();
   final TextEditingController studentCodeController = TextEditingController();
-  final TextEditingController studentReligionController = TextEditingController();
+  final TextEditingController studentReligionController =
+      TextEditingController();
   final TextEditingController studentGenderController = TextEditingController();
-  final TextEditingController studentNationalityController = TextEditingController();
-  final TextEditingController studentBirthDateController = TextEditingController();
-  final TextEditingController studentBirthPlaceController = TextEditingController();
-  final TextEditingController studentNationalIdController = TextEditingController();
-  final TextEditingController studentAddressController = TextEditingController();
-  final TextEditingController studentLandlineController = TextEditingController();
+  final TextEditingController studentNationalityController =
+      TextEditingController();
+  final TextEditingController studentBirthDateController =
+      TextEditingController();
+  final TextEditingController studentBirthPlaceController =
+      TextEditingController();
+  final TextEditingController studentNationalIdController =
+      TextEditingController();
+  final TextEditingController studentAddressController =
+      TextEditingController();
+  final TextEditingController studentLandlineController =
+      TextEditingController();
   final TextEditingController studentMobileController = TextEditingController();
   final TextEditingController studentEmailController = TextEditingController();
 
@@ -28,10 +38,14 @@ class AdminCubit extends Cubit<AdminState> {
   final TextEditingController adminCodeController = TextEditingController();
   final TextEditingController adminReligionController = TextEditingController();
   final TextEditingController adminGenderController = TextEditingController();
-  final TextEditingController adminNationalityController = TextEditingController();
-  final TextEditingController adminBirthDateController = TextEditingController();
-  final TextEditingController adminBirthPlaceController = TextEditingController();
-  final TextEditingController adminNationalIdController = TextEditingController();
+  final TextEditingController adminNationalityController =
+      TextEditingController();
+  final TextEditingController adminBirthDateController =
+      TextEditingController();
+  final TextEditingController adminBirthPlaceController =
+      TextEditingController();
+  final TextEditingController adminNationalIdController =
+      TextEditingController();
   final TextEditingController adminAddressController = TextEditingController();
   final TextEditingController adminLandlineController = TextEditingController();
   final TextEditingController adminMobileController = TextEditingController();
@@ -40,31 +54,47 @@ class AdminCubit extends Cubit<AdminState> {
   // Controllers for professor form fields
   final TextEditingController professorNameController = TextEditingController();
   final TextEditingController professorCodeController = TextEditingController();
-  final TextEditingController professorReligionController = TextEditingController();
-  final TextEditingController professorGenderController = TextEditingController();
-  final TextEditingController professorNationalityController = TextEditingController();
-  final TextEditingController professorBirthDateController = TextEditingController();
-  final TextEditingController professorBirthPlaceController = TextEditingController();
-  final TextEditingController professorNationalIdController = TextEditingController();
-  final TextEditingController professorAddressController = TextEditingController();
-  final TextEditingController professorLandlineController = TextEditingController();
-  final TextEditingController professorMobileController = TextEditingController();
-  final TextEditingController professorEmailController = TextEditingController();
+  final TextEditingController professorReligionController =
+      TextEditingController();
+  final TextEditingController professorGenderController =
+      TextEditingController();
+  final TextEditingController professorNationalityController =
+      TextEditingController();
+  final TextEditingController professorBirthDateController =
+      TextEditingController();
+  final TextEditingController professorBirthPlaceController =
+      TextEditingController();
+  final TextEditingController professorNationalIdController =
+      TextEditingController();
+  final TextEditingController professorAddressController =
+      TextEditingController();
+  final TextEditingController professorLandlineController =
+      TextEditingController();
+  final TextEditingController professorMobileController =
+      TextEditingController();
+  final TextEditingController professorEmailController =
+      TextEditingController();
 
   // Controllers for affairs form fields
   final TextEditingController affairsNameController = TextEditingController();
   final TextEditingController affairsCodeController = TextEditingController();
-  final TextEditingController affairsReligionController = TextEditingController();
+  final TextEditingController affairsReligionController =
+      TextEditingController();
   final TextEditingController affairsGenderController = TextEditingController();
-  final TextEditingController affairsNationalityController = TextEditingController();
-  final TextEditingController affairsBirthDateController = TextEditingController();
-  final TextEditingController affairsBirthPlaceController = TextEditingController();
-  final TextEditingController affairsNationalIdController = TextEditingController();
-  final TextEditingController affairsAddressController = TextEditingController();
-  final TextEditingController affairsLandlineController = TextEditingController();
+  final TextEditingController affairsNationalityController =
+      TextEditingController();
+  final TextEditingController affairsBirthDateController =
+      TextEditingController();
+  final TextEditingController affairsBirthPlaceController =
+      TextEditingController();
+  final TextEditingController affairsNationalIdController =
+      TextEditingController();
+  final TextEditingController affairsAddressController =
+      TextEditingController();
+  final TextEditingController affairsLandlineController =
+      TextEditingController();
   final TextEditingController affairsMobileController = TextEditingController();
   final TextEditingController affairsEmailController = TextEditingController();
-
 
   // For type selection and toggling
   List<String> types = [
@@ -110,26 +140,28 @@ class AdminCubit extends Cubit<AdminState> {
   String? email;
   String? password;
 
-  // List to store students
+  // Lists to store data
   List<Student> students = [];
-  // List to store administrators
   List<Administrator> administrators = [];
-  // List to store professors
   List<Professor> professors = [];
-  // List to store affairs
   List<Affairs> affairs = [];
 
-  void addStudent(Student student) {
+  Future<void> addStudent(Student student) async {
     try {
-      students.add(student);
-      emit(AdminStudentAdded(students));
+      // تحويل الطالب إلى خريطة
+      Map<String, dynamic> studentData = student.toMap();
+      // إضافة البيانات إلى Firestore
+      await _firestore.collection('students').add(studentData);
+
+      emit(AdminStudentAdded(students)); // يمكنك تحديث القائمة أو استبعادها
     } catch (e) {
       emit(AdminStudentAddError(e.toString()));
     }
   }
 
-  void addAdministrator(Administrator administrator) {
+  void addAdministrator(Administrator administrator) async {
     try {
+      await _firestore.collection('administrators').add(administrator.toJson());
       administrators.add(administrator);
       emit(AdminAdministratorAdded(administrators));
     } catch (e) {
@@ -137,8 +169,9 @@ class AdminCubit extends Cubit<AdminState> {
     }
   }
 
-  void addProfessor(Professor professor) {
+  void addProfessor(Professor professor) async {
     try {
+      await _firestore.collection('professors').add(professor.toJson());
       professors.add(professor);
       emit(AdminProfessorAdded(professors));
     } catch (e) {
@@ -213,5 +246,43 @@ class AdminCubit extends Cubit<AdminState> {
     affairsLandlineController.clear();
     affairsMobileController.clear();
     affairsEmailController.clear();
+  }
+
+  Future<void> saveSchedule(Map<String, dynamic> scheduleData) async {
+    emit(AdminSaveScheduleLoading());
+    try {
+      await _firestore.collection('schedules').add(scheduleData);
+      emit(AdminSaveScheduleSuccess());
+    } catch (error) {
+      emit(AdminSaveScheduleError(error.toString()));
+    }
+  }
+
+  // Schedule data management
+  Map<String, Map<int, Map<String, String>>> scheduleData = {};
+
+  void setSubject(String day, int period, String subject) {
+    if (!scheduleData.containsKey(day)) {
+      scheduleData[day] = {};
+    }
+    if (!scheduleData[day]!.containsKey(period)) {
+      scheduleData[day]![period] = {};
+    }
+    scheduleData[day]![period]!['subject'] = subject;
+  }
+
+  void setTeacher(String day, int period, String teacher) {
+    if (scheduleData.containsKey(day) &&
+        scheduleData[day]!.containsKey(period)) {
+      scheduleData[day]![period]!['teacher'] = teacher;
+    }
+  }
+
+  String getSubject(String day, int period) {
+    return scheduleData[day]?[period]?['subject'] ?? '';
+  }
+
+  String getTeacher(String day, int period) {
+    return scheduleData[day]?[period]?['teacher'] ?? '';
   }
 }

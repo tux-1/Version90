@@ -50,7 +50,7 @@ class AppRouter {
       case Screens.studentHomeScreen:
         return MaterialPageRoute(builder: (_) => const StudentHomeScreen());
       case Screens.studentDataScreen:
-        return MaterialPageRoute(builder: (_) =>  StudentDataScreen());
+        return MaterialPageRoute(builder: (_) => const StudentDataScreen());
       case Screens.studentTableScreen:
         return MaterialPageRoute(builder: (_) => const StudentTableScreen());
       case Screens.studentAccessScreen:

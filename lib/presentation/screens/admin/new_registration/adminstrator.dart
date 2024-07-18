@@ -104,6 +104,8 @@ class AdminstratorForm extends StatelessWidget {
                           controller: adminCubit.adminMobileController),
                       customInputData(txt: 'البريد الإلكتروني:',
                           controller: adminCubit.adminEmailController),
+                      customInputData(txt: 'كلمه السر :',
+                          controller: adminCubit.adminEmailController),
                       const SizedBox(height: 10.0),
                       Center(
                         child: IconButton(

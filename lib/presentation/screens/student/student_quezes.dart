@@ -4,6 +4,7 @@ import 'package:faculty_project/presentation/widget/custom_row_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../business_logic/student_cubit/student_cubit.dart';
+import '../../../constants/screens.dart';
 import '../../styles/colors.dart';
 import '../../styles/texts.dart';
 
@@ -126,7 +127,7 @@ class StudentQuesScreen extends StatelessWidget {
                                     ),
                                   ))
                                   .toList(),
-                              value: studentCubit.selectedSubjects,
+                              value: studentCubit.selectedSubjects ?? '',
                               onChanged: (String? value) {
                                 studentCubit.selectedSubjects = value!;
                                 studentCubit.changeSelectedSubject(value);

@@ -9,7 +9,7 @@ class AdminInitial extends AdminState {}
 
 class GlobalChangeSelectedType extends AdminState {}
 
-// States for student
+// States for Student
 class AdminStudentAdded extends AdminState {
   final List<Student> students;
   AdminStudentAdded(this.students);
@@ -20,7 +20,7 @@ class AdminStudentAddError extends AdminState {
   AdminStudentAddError(this.error);
 }
 
-// States for administrator
+// States for Administrator
 class AdminAdministratorAdded extends AdminState {
   final List<Administrator> administrators;
   AdminAdministratorAdded(this.administrators);
@@ -31,7 +31,7 @@ class AdminAdministratorAddError extends AdminState {
   AdminAdministratorAddError(this.error);
 }
 
-// States for professor
+// States for Professor
 class AdminProfessorAdded extends AdminState {
   final List<Professor> professors;
   AdminProfessorAdded(this.professors);
@@ -42,7 +42,7 @@ class AdminProfessorAddError extends AdminState {
   AdminProfessorAddError(this.error);
 }
 
-// States for affairs
+// States for Affairs
 class AdminAffairsAdded extends AdminState {
   final List<Affairs> affairs;
   AdminAffairsAdded(this.affairs);
@@ -51,4 +51,14 @@ class AdminAffairsAdded extends AdminState {
 class AdminAffairsAddError extends AdminState {
   final String error;
   AdminAffairsAddError(this.error);
+}
+
+// States for Saving Schedule
+class AdminSaveScheduleLoading extends AdminState {}
+
+class AdminSaveScheduleSuccess extends AdminState {}
+
+class AdminSaveScheduleError extends AdminState {
+  final String error;
+  AdminSaveScheduleError(this.error);
 }

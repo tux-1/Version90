@@ -1,8 +1,8 @@
 import 'package:bloc/bloc.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:faculty_project/business_logic/register_cubit/register_state.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
 
 class RegistrationCubit extends Cubit<RegistrationState> {
   RegistrationCubit() : super(RegistrationInitial());
@@ -20,6 +20,8 @@ class RegistrationCubit extends Cubit<RegistrationState> {
     emit(PasswordVisibilityToggled(isPasswordVisible));
   }
 
+  
+
   Future<void> registerUser(BuildContext context) async {
     if (!formKey.currentState!.validate()) {
       return;
@@ -28,7 +30,8 @@ class RegistrationCubit extends Cubit<RegistrationState> {
     emit(RegistrationLoading());
 
     try {
-      UserCredential user = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      UserCredential user =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: emailController.text,
         password: passwordController.text,
       );

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 
-Widget customInputData(
-    {required TextEditingController controller,String? txt,Function(String)? onchange,}
-    ) {
+Widget customInputData({
+  required TextEditingController controller,
+  String? txt,
+  Function(String)? onchange,
+  bool obscureText = false, // إضافة هذا السطر
+}) {
   return Row(
     children: [
       Text(
@@ -17,8 +20,9 @@ Widget customInputData(
       SizedBox(
         width: 240,
         child: TextField(
-          //onChanged: onchange,
+          onChanged: onchange, // قم بإلغاء تعليق هذه السطر إذا كنت بحاجة إليه
           controller: controller,
+          obscureText: obscureText, // استخدام حقل obscureText هنا
           decoration: const InputDecoration(border: UnderlineInputBorder()),
         ),
       ),

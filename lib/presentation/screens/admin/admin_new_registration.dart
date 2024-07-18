@@ -90,31 +90,31 @@ class AdminNewRegistration extends StatelessWidget {
                       const SizedBox(
                         height: 20.0,
                       ),
-                      Container(
-                        decoration: BoxDecoration(
-                          color: AppColor.grey,
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        child: MaterialButton(
-                          onPressed: () {
-                            Navigator.pushNamed(
-                              context,
-                              Screens.studentAffairsForm,
-                            );
-                          },
-                          minWidth: 224.0,
-                          child: const Center(
-                            child: Text(
-                              'شؤون طلبة',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 20.0,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
+                      // Container(
+                      //   decoration: BoxDecoration(
+                      //     color: AppColor.grey,
+                      //     borderRadius: BorderRadius.circular(10.0),
+                      //   ),
+                      //   child: MaterialButton(
+                      //     onPressed: () {
+                      //       Navigator.pushNamed(
+                      //         context,
+                      //         Screens.studentAffairsForm,
+                      //       );
+                      //     },
+                      //     minWidth: 224.0,
+                      //     child: const Center(
+                      //       child: Text(
+                      //         'شؤون طلبة',
+                      //         style: TextStyle(
+                      //           color: Colors.white,
+                      //           fontSize: 20.0,
+                      //           fontWeight: FontWeight.w700,
+                      //         ),
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
                      SizedBox(
                        height: MediaQuery.of(context).size.height/3.5,
                      ),

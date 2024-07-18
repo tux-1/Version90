@@ -65,4 +65,5 @@ class DefaultFirebaseOptions {
     storageBucket: 'huci-project.appspot.com',
     iosBundleId: 'com.example.flutterProject',
   );
+
 }

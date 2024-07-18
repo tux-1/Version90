@@ -1,17 +1,10 @@
-import 'dart:ui';
-
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:faculty_project/business_logic/admin_cubit/admin_cubit.dart';
 import 'package:faculty_project/business_logic/admin_cubit/admin_state.dart';
 import 'package:faculty_project/presentation/styles/colors.dart';
 import 'package:faculty_project/presentation/widget/custom_app_bar.dart';
 import 'package:faculty_project/presentation/widget/custom_banner.dart';
-import 'package:faculty_project/presentation/widget/custom_row_buttons.dart';
-import 'package:faculty_project/presentation/widget/custom_row_gadwal.dart';
-import 'package:faculty_project/presentation/widget/notfication_button.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AdminCreateGadwal extends StatelessWidget {
   const AdminCreateGadwal({super.key});
@@ -21,7 +14,17 @@ class AdminCreateGadwal extends StatelessWidget {
     return BlocProvider(
       create: (BuildContext context) => AdminCubit(),
       child: BlocConsumer<AdminCubit, AdminState>(
-        listener: (BuildContext context, AdminState state) {},
+        listener: (BuildContext context, AdminState state) {
+          if (state is AdminSaveScheduleSuccess) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Schedule saved successfully')),
+            );
+          } else if (state is AdminSaveScheduleError) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Error: ${state.error}')),
+            );
+          }
+        },
         builder: (BuildContext context, AdminState state) {
           final AdminCubit adminCubit = context.read<AdminCubit>();
           return Scaffold(
@@ -33,14 +36,10 @@ class AdminCreateGadwal extends StatelessWidget {
                   child: const Row(
                     children: [
                       Padding(
-                        padding: EdgeInsets.only(
-                          left: 10.0,
-                        ),
+                        padding: EdgeInsets.only(left: 10.0),
                         child: CircleAvatar(
                           backgroundColor: AppColor.carosalBG,
-                          child: Icon(
-                            Icons.person_outline,
-                          ),
+                          child: Icon(Icons.person_outline),
                         ),
                       ),
                       Spacer(),
@@ -67,98 +66,57 @@ class AdminCreateGadwal extends StatelessWidget {
                   children: [
                     customBanner('إنشاء جدول المحاضرات'),
                     const SizedBox(height: 20),
-                    Container(
-                      height: 1.0,
-                      color: AppColor.grey,
-                    ),
-                    const SizedBox(
-                      height: 20.0,
-                    ),
+                    Container(height: 1.0, color: AppColor.grey),
+                    const SizedBox(height: 20.0),
                     Directionality(
                       textDirection: TextDirection.rtl,
-                      child: Wrap(
-                        spacing: 90.0,
-                        runSpacing: 20.0,
-                        children: adminCubit.types
-                            .map(
-                              (e) => Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Transform.scale(
-                                    scale: 1,
-                                    child: SizedBox(
-                                      height: 20.0,
-                                      width: 20.0,
-                                      child: Radio(
-                                        activeColor: AppColor.black,
-                                        fillColor: MaterialStateProperty
-                                            .resolveWith<Color>(
-                                          (Set<MaterialState> states) {
-                                            return AppColor.black;
-                                          },
-                                        ),
-                                        value: adminCubit.types.indexOf(e),
-                                        groupValue:
-                                            adminCubit.selectedTypeValue,
-                                        onChanged: (value) {
-                                          adminCubit
-                                              .changeTypeSelection(value!);
-                                          print(value);
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          for (var day in ['الأحد', 'الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس'])
+                            dayRow(day, context),
+                          const SizedBox(height: 30),
+                          ElevatedButton(
+                            onPressed: () {
+                              // تجميع البيانات من الحقول
+                              Map<String, dynamic> scheduleData = {
+                                'days': [
+                                  for (var day in ['الأحد', 'الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس'])
+                                    {
+                                      'day': day,
+                                      'periods': [
+                                        {
+                                          'subject': adminCubit.getSubject(day, 1),
+                                          'teacher': adminCubit.getTeacher(day, 1),
                                         },
-                                      ),
-                                    ),
-                                  ),
-                                  Text(
-                                    e.toString(),
-                                    textAlign: TextAlign.start,
-                                    style: const TextStyle(
-                                      color: Colors
-                                          .black, // Changed from Colors.white to Colors.black
-                                      fontSize: 12.0,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
+                                        {
+                                          'subject': adminCubit.getSubject(day, 2),
+                                          'teacher': adminCubit.getTeacher(day, 2),
+                                        },
+                                        {
+                                          'subject': adminCubit.getSubject(day, 3),
+                                          'teacher': adminCubit.getTeacher(day, 3),
+                                        },
+                                        {
+                                          'subject': adminCubit.getSubject(day, 4),
+                                          'teacher': adminCubit.getTeacher(day, 4),
+                                        },
+                                        {
+                                          'subject': adminCubit.getSubject(day, 5),
+                                          'teacher': adminCubit.getTeacher(day, 5),
+                                        },
+                                      ],
+                                    },
                                 ],
-                              ),
-                            )
-                            .toList(),
+                              };
+                              // استدعاء دالة الحفظ
+                              adminCubit.saveSchedule(scheduleData);
+                            },
+                            child: Text('حفظ الجدول'),
+                          ),
+                        ],
                       ),
                     ),
-                    const Divider(
-                      color: Colors.grey,
-                    ),
-                    const SizedBox(
-                      height: 35.0,
-                    ),
-                    customRowGadwal(context,'الفترة الأولى:'),
-                    const SizedBox(
-                      height: 20.0,
-                    ),
-                    customRowGadwal(context,'الفترة الثانية:'),
-                    const SizedBox(
-                      height: 20.0,
-                    ),
-                    customRowGadwal(context,'الفترة الثالثة:'),
-                    const SizedBox(
-                      height: 20.0,
-                    ),
-                    customRowGadwal(context,'الفترة الرابعة:'),
-                    const SizedBox(
-                      height: 20.0,
-                    ),
-                    customRowGadwal(context,'الفترة الخامسة:'),
-                    const SizedBox(
-                      height: 25.0,
-                    ),
-                    Directionality(
-                      textDirection: TextDirection.rtl,
-                      child: notificationScreenButtons(
-                        txt1: 'حفظ',
-                        txt2: 'إفراغ',
-                      ),
-                    ),
-                    SizedBox(height: MediaQuery.of(context).size.height/6,),
-                    customRowButton(context: context, padding: 0.0),
                   ],
                 ),
               ),
@@ -166,6 +124,49 @@ class AdminCreateGadwal extends StatelessWidget {
           );
         },
       ),
+    );
+  }
+
+  Widget dayRow(String dayName, BuildContext context) {
+    final AdminCubit adminCubit = context.read<AdminCubit>();
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        Text(
+          dayName,
+          style: Theme.of(context).textTheme.titleMedium,
+        ),
+        const SizedBox(height: 10),
+        for (var period in [1, 2, 3, 4, 5]) // خمس فترات
+          periodRow(dayName, period, context),
+      ],
+    );
+  }
+
+  Widget periodRow(String dayName, int periodNumber, BuildContext context) {
+    final AdminCubit adminCubit = context.read<AdminCubit>();
+    return Row(
+      children: [
+        Expanded(
+          child: TextField(
+            onChanged: (value) => adminCubit.setSubject(dayName, periodNumber, value),
+            decoration: InputDecoration(
+              labelText: 'المادة للفترة $periodNumber',
+              border: OutlineInputBorder(),
+            ),
+          ),
+        ),
+        const SizedBox(width: 10),
+        Expanded(
+          child: TextField(
+            onChanged: (value) => adminCubit.setTeacher(dayName, periodNumber, value),
+            decoration: InputDecoration(
+              labelText: 'المعلم للفترة $periodNumber',
+              border: OutlineInputBorder(),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

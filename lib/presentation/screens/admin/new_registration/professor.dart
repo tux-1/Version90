@@ -102,6 +102,8 @@ class ProfessorForm extends StatelessWidget {
                           controller: adminCubit.professorMobileController),
                       customInputData(txt: 'البريد الإلكتروني:',
                           controller: adminCubit.professorEmailController),
+                      customInputData(txt: 'كلمه السر :',
+                          controller: adminCubit.adminEmailController),
                       const SizedBox(
                         height: 10.0,
                       ),

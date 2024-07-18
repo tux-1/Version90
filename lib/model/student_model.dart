@@ -11,6 +11,7 @@ class Student {
   String phone;
   String mobile;
   String email;
+  String password;
 
   Student({
     required this.name,
@@ -25,5 +26,24 @@ class Student {
     required this.phone,
     required this.mobile,
     required this.email,
+    required this.password, // إضافة حقل كلمة المرور
   });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'name': name,
+      'code': code,
+      'religion': religion,
+      'gender': gender,
+      'nationality': nationality,
+      'birthDate': birthDate,
+      'birthPlace': birthPlace,
+      'nationalId': nationalId,
+      'address': address,
+      'phone': phone,
+      'mobile': mobile,
+      'email': email,
+      'password': password,
+    };
+  }
 }

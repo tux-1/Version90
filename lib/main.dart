@@ -20,24 +20,37 @@ late LocalizationDelegate delegate;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // await CacheHelper.sharedPreferences.clear();
+
+  // Initialize Dio
   DioHelper.init();
+
+  // Initialize CacheHelper
   await CacheHelper.init();
+
+  // Initialize translation delegate
   const locale = "en";
   delegate = await LocalizationDelegate.create(
     fallbackLocale: locale,
     supportedLocales: ['ar', 'en'],
   );
   await delegate.changeLocale(Locale(locale));
+
+  // Set system UI overlay style
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
   ));
+
+  // Initialize Firebase
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  // Run the app
   runApp(MyApp(
     appRouter: AppRouter(),
   ));
+
+  // Set Bloc observer
   Bloc.observer = MyBlocObserver();
 }
 
@@ -81,7 +94,7 @@ class _MyAppState extends State<MyApp> {
             delegate,
             LayoutBuilder(builder: (context, constraints) {
               return MaterialApp(
-                // debugShowCheckedModeBanner: false,
+                debugShowCheckedModeBanner: false,
                 title: 'Elmanassa',
                 localizationsDelegates: [
                   AppLocalizations.delegate,
@@ -89,13 +102,13 @@ class _MyAppState extends State<MyApp> {
                   delegate,
                 ],
                 locale: delegate.currentLocale,
-
                 supportedLocales: delegate.supportedLocales,
                 onGenerateRoute: widget.appRouter.onGenerateRoute,
                 theme: ThemeData(
                   fontFamily: 'cairo',
                   progressIndicatorTheme: const ProgressIndicatorThemeData(
-                      color: AppColor.babyBlue),
+                    color: AppColor.babyBlue,
+                  ),
                   primarySwatch: AppColor.defaultColor,
                   textSelectionTheme: const TextSelectionThemeData(
                     selectionHandleColor: AppColor.babyBlue,
@@ -107,8 +120,8 @@ class _MyAppState extends State<MyApp> {
                           (states) => AppColor.indigoDye,
                     ),
                   ),
-                  // splashColor: AppColor.indigoDye,
-                  //scaffoldBackgroundColor: AppColors.white,
+                  splashColor: AppColor.indigoDye,
+                  scaffoldBackgroundColor: Colors.white,
                   appBarTheme: const AppBarTheme(
                     elevation: 0.0,
                     systemOverlayStyle: SystemUiOverlayStyle(
