@@ -126,10 +126,7 @@ class StudentModargatScreen extends StatelessWidget {
                           SizedBox(
                             height: MediaQuery.of(context).size.height * 0.6,
                           ),
-                          customRowButton(
-                            padding: 0.0,
-                              context: context
-                          ),
+                          customRowButton(padding: 0.0, context: context),
                         ],
                       ),
                     ),

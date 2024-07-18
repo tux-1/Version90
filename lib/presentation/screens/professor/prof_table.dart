@@ -6,7 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../business_logic/prof_cubit/prof_cubit.dart';
 import '../../../business_logic/prof_cubit/prof_state.dart';
 import '../../styles/colors.dart';
-import '../../widget/back_button.dart';
+import '../../widget/prof_app_bar.dart';
 
 class ProfTableScreen extends StatelessWidget {
   const ProfTableScreen({Key? key}) : super(key: key);
@@ -24,32 +24,8 @@ class ProfTableScreen extends StatelessWidget {
               schedule = state.tableData;
             }
             return Scaffold(
-              appBar: CustomAppBar(
-                appBarWidget: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                  child: Container(
-                    color: AppColor.babyBlue,
-                    child: const Row(
-                      children: [
-                        BackButtonWidget(
-                          direction: true,
-                          buttonColor: AppColor.black,
-                        ),
-                        Spacer(),
-                        Directionality(
-                          textDirection: TextDirection.rtl,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text('الاسم:'),
-                              Text('الكود:'),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+              appBar: const  CustomAppBar(
+                appBarWidget: ProfAppBar(),
               ),
               body: Directionality(
                 textDirection: TextDirection.rtl,

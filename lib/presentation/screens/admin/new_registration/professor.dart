@@ -154,21 +154,21 @@ class _ProfessorFormState extends State<ProfessorForm> {
                         child: IconButton(
                           onPressed: () async {
                             final professor = Professor(
-                              name: adminCubit.adminNameController.text,
-                              code: adminCubit.adminCodeController.text,
-                              religion: adminCubit.adminReligionController.text,
-                              gender: adminCubit.adminGenderController.text,
+                              name: adminCubit.professorNameController.text,
+                              code: adminCubit.professorCodeController.text,
+                              religion: adminCubit.professorReligionController.text,
+                              gender: adminCubit.professorGenderController.text,
                               nationality:
-                              adminCubit.adminNationalityController.text,
+                              adminCubit.professorNationalityController.text,
                               birthDate:
-                              adminCubit.adminBirthDateController.text,
+                              adminCubit.professorBirthDateController.text,
                               birthPlace:
-                              adminCubit.adminBirthPlaceController.text,
+                              adminCubit.professorBirthPlaceController.text,
                               nationalId:
-                              adminCubit.adminNationalIdController.text,
-                              address: adminCubit.adminAddressController.text,
-                              phone: adminCubit.adminLandlineController.text,
-                              mobile: adminCubit.adminMobileController.text,
+                              adminCubit.professorNationalIdController.text,
+                              address: adminCubit.professorAddressController.text,
+                              phone: adminCubit.professorLandlineController.text,
+                              mobile: adminCubit.professorMobileController.text,
                               email: adminCubit.professorEmailController.text,
                             );
                              if (picture == null) {

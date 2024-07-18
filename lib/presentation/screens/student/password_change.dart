@@ -268,7 +268,6 @@ class PasswordChangeScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-
                 ],
               ),
             ),

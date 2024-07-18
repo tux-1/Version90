@@ -11,8 +11,10 @@ class Professor {
   final String phone;
   final String mobile;
   final String email;
+  final String? imageUrl;
 
   Professor({
+    this.imageUrl,
     required this.name,
     required this.code,
     required this.religion,
@@ -26,6 +28,24 @@ class Professor {
     required this.mobile,
     required this.email,
   });
+
+  factory Professor.fromJson(Map<String, dynamic> json) {
+    return Professor(
+      name: json['name'],
+      code: json['code'],
+      religion: json['religion'],
+      gender: json['gender'],
+      nationality: json['nationality'],
+      birthDate: json['birthDate'],
+      birthPlace: json['birthPlace'],
+      nationalId: json['nationalId'],
+      address: json['address'],
+      phone: json['phone'],
+      mobile: json['mobile'],
+      email: json['email'],
+      imageUrl: json['imageUrl']
+    );
+  }
 
   Map<String, dynamic> toJson() {
     return {

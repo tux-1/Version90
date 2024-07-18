@@ -9,7 +9,6 @@ import '../../../constants/screens.dart';
 import '../../styles/colors.dart';
 import '../../styles/texts.dart';
 
-
 class StudentQuesScreen extends StatelessWidget {
   const StudentQuesScreen({Key? key}) : super(key: key);
 
@@ -23,7 +22,7 @@ class StudentQuesScreen extends StatelessWidget {
           return Builder(builder: (context) {
             final StudentCubit studentCubit = context.read<StudentCubit>();
             return Scaffold(
-              appBar:const CustomAppBar(
+              appBar: const CustomAppBar(
                 appBarWidget: StudentAppBar(),
               ),
               body: Directionality(
@@ -89,13 +88,13 @@ class StudentQuesScreen extends StatelessWidget {
                               items: studentCubit.subjectsList
                                   .map(
                                       (String item) => DropdownMenuItem<String>(
-                                    value: item,
-                                    child: Text(
-                                      item,
-                                      style: TextStyles
-                                          .registerGenderListItemStyle,
-                                    ),
-                                  ))
+                                            value: item,
+                                            child: Text(
+                                              item,
+                                              style: TextStyles
+                                                  .registerGenderListItemStyle,
+                                            ),
+                                          ))
                                   .toList(),
                               value: studentCubit.selectedSubjects ?? '',
                               onChanged: (String? value) {
@@ -116,109 +115,111 @@ class StudentQuesScreen extends StatelessWidget {
                           ),
                           studentCubit.selectedSubjects != 'اختر....'
                               ? Column(
-                            children: [
-                              Container(
-                                height: 56.0,
-                                decoration: BoxDecoration(
-                                  color: AppColor.grey,
-                                  borderRadius:
-                                  BorderRadius.circular(10.0),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    studentCubit.selectedSubjects,
-                                    style: const TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 20.0,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Container(
-                                  height: 1.0,
-                                  color: AppColor.grey,
-                                ),
-                              ),
-                              const Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 8.0),
-                                child: Row(
                                   children: [
-                                    Icon(
-                                      Icons.folder,
-                                    ),
-                                    SizedBox(
-                                      width: 5.0,
-                                    ),
-                                    Text(
-                                      'نماذج الامتحانات',
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 20.0,
-                                        fontWeight: FontWeight.bold,
+                                    Container(
+                                      height: 56.0,
+                                      decoration: BoxDecoration(
+                                        color: AppColor.grey,
+                                        borderRadius:
+                                            BorderRadius.circular(10.0),
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          studentCubit.selectedSubjects,
+                                          style: const TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 20.0,
+                                            fontWeight: FontWeight.w700,
+                                          ),
+                                        ),
                                       ),
                                     ),
-                                    Spacer(),
-                                    Directionality(
-                                      textDirection: TextDirection.ltr,
-                                      child: Icon(
-                                        Icons.arrow_back_ios_new,
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Container(
+                                        height: 1.0,
+                                        color: AppColor.grey,
+                                      ),
+                                    ),
+                                    const Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 8.0),
+                                      child: Row(
+                                        children: [
+                                          Icon(
+                                            Icons.folder,
+                                          ),
+                                          SizedBox(
+                                            width: 5.0,
+                                          ),
+                                          Text(
+                                            'نماذج الامتحانات',
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 20.0,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          Spacer(),
+                                          Directionality(
+                                            textDirection: TextDirection.ltr,
+                                            child: Icon(
+                                              Icons.arrow_back_ios_new,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Container(
+                                        height: 1.0,
+                                        color: AppColor.grey,
+                                      ),
+                                    ),
+                                    const Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 8.0),
+                                      child: Row(
+                                        children: [
+                                          Icon(
+                                            Icons.folder,
+                                          ),
+                                          SizedBox(
+                                            width: 5.0,
+                                          ),
+                                          Text(
+                                            'حلول الامتحانات',
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 20.0,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          Spacer(),
+                                          Directionality(
+                                            textDirection: TextDirection.ltr,
+                                            child: Icon(
+                                              Icons.arrow_back_ios_new,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Container(
+                                        height: 1.0,
+                                        color: AppColor.grey,
                                       ),
                                     ),
                                   ],
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Container(
-                                  height: 1.0,
-                                  color: AppColor.grey,
-                                ),
-                              ),
-                              const Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 8.0),
-                                child: Row(
-                                  children: [
-                                    Icon(
-                                      Icons.folder,
-                                    ),
-                                    SizedBox(
-                                      width: 5.0,
-                                    ),
-                                    Text(
-                                      'حلول الامتحانات',
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 20.0,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    Spacer(),
-                                    Directionality(
-                                      textDirection: TextDirection.ltr,
-                                      child: Icon(
-                                        Icons.arrow_back_ios_new,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Container(
-                                  height: 1.0,
-                                  color: AppColor.grey,
-                                ),
-                              ),
-                            ],
-                          )
+                                )
                               : const SizedBox(),
                           SizedBox(
-                            height:MediaQuery.of(context).size.height*0.38 ,
+                            height: MediaQuery.of(context).size.height * 0.38,
                           ),
-                          customRowButton(padding: 0.0,context: context),
+                          customRowButton(padding: 0.0, context: context),
                         ],
                       ),
                     ),

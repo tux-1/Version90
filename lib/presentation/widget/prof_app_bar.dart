@@ -1,17 +1,19 @@
+
+import 'package:faculty_project/business_logic/prof_cubit/prof_cubit.dart';
+import 'package:faculty_project/business_logic/prof_cubit/prof_state.dart';
 import 'package:faculty_project/presentation/styles/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../business_logic/student_cubit/student_cubit.dart';
 import 'custom_app_bar.dart';
 
-class StudentAppBar extends StatelessWidget {
-  const StudentAppBar({super.key});
+class ProfAppBar extends StatelessWidget {
+  const ProfAppBar({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<StudentCubit, StudentState>(builder: (context, state) {
-      final studentCubit = context.read<StudentCubit>();
+    return BlocBuilder<ProfCubit, ProfState>(builder: (context, state) {
+      final profCubit = context.read<ProfCubit>();
       return CustomAppBar(
         appBarWidget: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -25,9 +27,9 @@ class StudentAppBar extends StatelessWidget {
                   ),
                   child: CircleAvatar(
                     backgroundColor: AppColor.carosalBG,
-                    foregroundImage: studentCubit.studentData?.imageUrl == null
+                    foregroundImage: profCubit.professor?.imageUrl == null
                         ? null
-                        : NetworkImage(studentCubit.studentData!.imageUrl!),
+                        : NetworkImage(profCubit.professor!.imageUrl!),
                     child: const Icon(
                       Icons.person_outline,
                     ),
@@ -40,8 +42,8 @@ class StudentAppBar extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('الاسم: ${studentCubit.studentData?.name ?? ''}'),
-                      Text('الكود: ${studentCubit.studentData?.code ?? ''}'),
+                      Text('الاسم: ${profCubit.professor?.name ?? ''}'),
+                      Text('الكود: ${profCubit.professor?.code ?? ''}'),
                     ],
                   ),
                 ),

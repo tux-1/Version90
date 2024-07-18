@@ -33,7 +33,7 @@ class StudentSubjectsScreen extends StatelessWidget {
           return Builder(builder: (context) {
             final StudentCubit studentCubit = context.read<StudentCubit>();
             return Scaffold(
-              appBar:const  CustomAppBar(
+              appBar: const CustomAppBar(
                 appBarWidget: StudentAppBar(),
               ),
               body: Directionality(
@@ -153,7 +153,8 @@ class StudentSubjectsScreen extends StatelessWidget {
                                       ),
                                     ),
                                     const Padding(
-                                      padding: EdgeInsets.symmetric(horizontal: 8.0),
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 8.0),
                                       child: Row(
                                         children: [
                                           Icon(
@@ -188,7 +189,8 @@ class StudentSubjectsScreen extends StatelessWidget {
                                       ),
                                     ),
                                     const Padding(
-                                      padding: EdgeInsets.symmetric(horizontal: 8.0),
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 8.0),
                                       child: Row(
                                         children: [
                                           Icon(
@@ -225,10 +227,10 @@ class StudentSubjectsScreen extends StatelessWidget {
                                   ],
                                 )
                               : const SizedBox(),
-                           SizedBox(
-                            height:MediaQuery.of(context).size.height*0.38 ,
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.38,
                           ),
-                          customRowButton(padding: 0.0,context: context),
+                          customRowButton(padding: 0.0, context: context),
                         ],
                       ),
                     ),

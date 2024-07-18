@@ -97,9 +97,9 @@ class StudentAcademicScreen extends StatelessWidget {
                           ),
                         ),
                         SizedBox(
-                          height:MediaQuery.of(context).size.height*0.66 ,
+                          height: MediaQuery.of(context).size.height * 0.66,
                         ),
-                        customRowButton(padding: 0.0,context: context),
+                        customRowButton(padding: 0.0, context: context),
                       ],
                     ),
                   ),

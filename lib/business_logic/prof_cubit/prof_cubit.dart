@@ -1,5 +1,8 @@
 import 'package:bloc/bloc.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:faculty_project/business_logic/prof_cubit/prof_state.dart';
+import 'package:faculty_project/model/professor_model.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../../data/remote/firebase_helper.dart';
@@ -14,12 +17,13 @@ class Student {
 }
 
 class ProfCubit extends Cubit<ProfState> {
-  ProfCubit() : super(ProfInitial()){
-    getSchedule();
+  ProfCubit() : super(ProfInitial()) {
+    initData();
   }
 
   final namecontroller = TextEditingController();
   final codecontroller = TextEditingController();
+  Professor? professor;
 
   List<String> modargatList = [
     'اختر....',
@@ -70,7 +74,24 @@ class ProfCubit extends Cubit<ProfState> {
     emit(GlobalChangeSelectedType());
   }
 
-  void getSchedule() async {
+  Future<void> getData() async {
+    try {
+      emit(ProfLoadingState());
+
+      final userDataDoc = await FirebaseFirestore.instance
+          .collection('professors')
+          .doc(FirebaseAuth.instance.currentUser?.uid)
+          .get();
+
+      professor = Professor.fromJson(userDataDoc.data()!);
+
+      emit(ProfDataFetched());
+    } catch (e) {
+      emit(ProfDataError("Error loading prof data: ${e.toString()}"));
+    }
+  }
+
+  Future<void> getSchedule() async {
     try {
       emit(ProfLoadingState());
       final schedule = await FirebaseHelper.getSchedule();
@@ -98,5 +119,10 @@ class ProfCubit extends Cubit<ProfState> {
       studentsList = [];
     }
     emit(ProfStudentsFetched());
+  }
+
+  Future<void> initData() async {
+    await getSchedule();
+    await getData();
   }
 }

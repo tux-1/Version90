@@ -1,13 +1,14 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:faculty_project/business_logic/prof_cubit/prof_cubit.dart';
 import 'package:faculty_project/business_logic/prof_cubit/prof_state.dart';
-import 'package:faculty_project/constants/screens.dart';
 import 'package:faculty_project/presentation/styles/colors.dart';
 import 'package:faculty_project/presentation/styles/texts.dart';
 import 'package:faculty_project/presentation/widget/custom_app_bar.dart';
 import 'package:faculty_project/presentation/widget/custom_row_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../widget/prof_app_bar.dart';
 
 class ProfUploadSubjectsScreen extends StatelessWidget {
   const ProfUploadSubjectsScreen({super.key});
@@ -21,40 +22,9 @@ class ProfUploadSubjectsScreen extends StatelessWidget {
         builder: (context, state) {
           final ProfCubit profCubit = context.read<ProfCubit>();
           return  Scaffold(
-            appBar: CustomAppBar(
-              appBarWidget: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                child: Container(
-                  color: AppColor.babyBlue,
-                  child: const Row(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(
-                          left: 10.0,
-                        ),
-                        child: CircleAvatar(
-                          backgroundColor: AppColor.carosalBG,
-                          child: Icon(
-                            Icons.person_outline,
-                          ),
-                        ),
-                      ),
-                      Spacer(),
-                      Directionality(
-                        textDirection: TextDirection.rtl,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text('الاسم:'),
-                            Text('الكود:'),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+            appBar: const  CustomAppBar(
+                appBarWidget: ProfAppBar(),
               ),
-            ),
             body: Directionality(
               textDirection: TextDirection.rtl,
               child: SafeArea(

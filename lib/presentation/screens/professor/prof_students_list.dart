@@ -1,15 +1,16 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:faculty_project/business_logic/prof_cubit/prof_cubit.dart';
 import 'package:faculty_project/business_logic/prof_cubit/prof_state.dart';
-import 'package:faculty_project/constants/screens.dart';
+
 import 'package:faculty_project/presentation/styles/colors.dart';
-import 'package:faculty_project/presentation/widget/back_button.dart';
+
 import 'package:faculty_project/presentation/widget/custom_app_bar.dart';
 import 'package:faculty_project/presentation/widget/custom_row_buttons.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../styles/texts.dart';
+import '../../widget/prof_app_bar.dart';
 
 class ProfStudentListScreen extends StatelessWidget {
   const ProfStudentListScreen({super.key});
@@ -23,33 +24,9 @@ class ProfStudentListScreen extends StatelessWidget {
         builder: (context, state) {
           final ProfCubit profCubit = context.read<ProfCubit>();
           return Scaffold(
-            appBar: CustomAppBar(
-              appBarWidget: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                child: Container(
-                  color: AppColor.babyBlue,
-                  child: const Row(
-                    children: [
-                      BackButtonWidget(
-                        direction: true,
-                        buttonColor: AppColor.black,
-                      ),
-                      Spacer(),
-                      Directionality(
-                        textDirection: TextDirection.rtl,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text('الاسم:'),
-                            Text('الكود:'),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+            appBar: const  CustomAppBar(
+                appBarWidget: ProfAppBar(),
               ),
-            ),
             body: SafeArea(
               child: Padding(
                 padding: const EdgeInsets.all(10.0),

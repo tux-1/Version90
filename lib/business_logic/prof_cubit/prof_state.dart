@@ -6,6 +6,9 @@ class GlobalChangeSelectedType extends ProfState {}
 
 class ProfStudentsFetched extends ProfState {}
 
+class ProfDataFetched extends ProfState {}
+
+
 class ProfLoadingState extends ProfState {}
 
 class ProfTableLoaded extends ProfState {

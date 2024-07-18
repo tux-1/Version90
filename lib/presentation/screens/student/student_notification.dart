@@ -55,10 +55,12 @@ class StudentNotificationScreen extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               GestureDetector(
-                                onTap: (){},
+                                onTap: () {},
                                 child: Container(
-                                  width: MediaQuery.of(context).size.width * 0.22,
-                                  height: MediaQuery.of(context).size.height * 0.04,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.22,
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.04,
                                   decoration: BoxDecoration(
                                     color: Colors.grey,
                                     borderRadius: BorderRadius.circular(5),
@@ -85,10 +87,12 @@ class StudentNotificationScreen extends StatelessWidget {
                                 ),
                               ),
                               GestureDetector(
-                                onTap: (){},
+                                onTap: () {},
                                 child: Container(
-                                  width: MediaQuery.of(context).size.width * 0.22,
-                                  height: MediaQuery.of(context).size.height * 0.04,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.22,
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.04,
                                   decoration: BoxDecoration(
                                     color: Colors.grey,
                                     borderRadius: BorderRadius.circular(5),
@@ -116,7 +120,6 @@ class StudentNotificationScreen extends StatelessWidget {
                               ),
                             ],
                           ),
-
                           const SizedBox(
                             height: 25.0,
                           ),
@@ -228,7 +231,7 @@ class StudentNotificationScreen extends StatelessWidget {
                           SizedBox(
                             height: MediaQuery.of(context).size.height * 0.45,
                           ),
-                          customRowButton(padding: 0.0,context: context),
+                          customRowButton(padding: 0.0, context: context),
                         ],
                       ),
                     ),

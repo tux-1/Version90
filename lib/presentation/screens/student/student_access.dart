@@ -13,7 +13,6 @@ import '../../../generated/assets.dart';
 import '../../../constants/screens.dart';
 import '../../styles/colors.dart';
 
-
 class StudentAccessScreen extends StatelessWidget {
   const StudentAccessScreen({Key? key}) : super(key: key);
 
@@ -27,7 +26,7 @@ class StudentAccessScreen extends StatelessWidget {
           return Builder(builder: (context) {
             final StudentCubit studentCubit = context.read<StudentCubit>();
             return Scaffold(
-              appBar:CustomAppBar(
+              appBar: CustomAppBar(
                 appBarWidget: StudentAppBar(),
               ),
               body: Directionality(
@@ -100,7 +99,7 @@ class StudentAccessScreen extends StatelessWidget {
                               ),
                             ),
                           ),
-                         customRowButton(padding: 130.0,context: context),
+                          customRowButton(padding: 130.0, context: context),
                         ],
                       ),
                     ),
