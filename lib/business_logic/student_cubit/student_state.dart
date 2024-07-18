@@ -7,10 +7,12 @@ final class StudentInitial extends StudentState {}
 
 final class StudentLoading extends StudentState {}
 
-final class StudentDataLoaded extends StudentState {
-  final Map<String, dynamic> studentData;
+final class StudentLoadingFinished extends StudentState {}
 
-  StudentDataLoaded(this.studentData);
+final class StudentDataLoaded extends StudentState {
+  final Map<String, dynamic> tableData;
+
+  StudentDataLoaded(this.tableData);
 }
 
 final class StudentDataError extends StudentState {

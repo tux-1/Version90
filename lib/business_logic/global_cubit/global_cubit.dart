@@ -1,4 +1,6 @@
 import 'package:bloc/bloc.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:faculty_project/model/account_type.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -28,20 +30,36 @@ class GlobalCubit extends Cubit<GlobalState> {
     emit(LoginLoading());
 
     try {
-      UserCredential user = await FirebaseAuth.instance.signInWithEmailAndPassword(
+      UserCredential user =
+          await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: emailController.text,
         password: passwordController.text,
       );
-      emit(LoginSuccess(user.user!));
+      final accountDataDocSnapshot = await FirebaseFirestore.instance
+          .collection('/accounts-types')
+          .doc(user.user?.uid)
+          .get();
+      // print(accountDataDocSnapshot);
+      final accountTypeString = accountDataDocSnapshot.data()?['account_type'];
+      // print(accountTypeString);
+      final accountType = AccountType.values.firstWhere(
+        (e) => e.name == accountTypeString,
+      );
+
+      emit(LoginSuccess(user.user!, accountType));
     } on FirebaseAuthException catch (e) {
+      FirebaseAuth.instance.signOut();
       if (e.code == 'user-not-found') {
         emit(LoginFailure('No user found for that email.'));
       } else if (e.code == 'wrong-password') {
         emit(LoginFailure('Wrong password provided for that user.'));
       } else {
+        print(e);
         emit(LoginFailure('There was an error!'));
       }
     } catch (e) {
+      print(e);
+      FirebaseAuth.instance.signOut();
       emit(LoginFailure('There was an error!'));
     }
   }

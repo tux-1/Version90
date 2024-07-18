@@ -1,4 +1,5 @@
 import 'package:faculty_project/constants/validator.dart';
+import 'package:faculty_project/model/account_type.dart';
 import 'package:faculty_project/presentation/screens/admin/admin_home.dart';
 import 'package:faculty_project/presentation/screens/professor/prof_home.dart';
 import 'package:faculty_project/presentation/screens/student/student_home.dart';
@@ -24,18 +25,17 @@ class LoginScreen extends StatelessWidget {
             );
           } else if (state is LoginSuccess) {
             final globalCubit = context.read<GlobalCubit>();
-            print('Selected Type Value (on success): ${globalCubit.selectedTypeValue}');
+            print(
+                'Selected Type Value (on success): ${globalCubit.selectedTypeValue}');
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) {
-                switch (globalCubit.types[globalCubit.selectedTypeValue]) {
-                  case 'طالب':
+                switch (state.accountType) {
+                  case AccountType.student:
                     return const StudentHomeScreen();
-                  case 'أستاذ جامعي':
+                  case AccountType.professor:
                     return const ProfHomeScreen();
-                  case 'إداري':
-                    return const AdminHomeScreen();
-                  default:
+                  case AccountType.admin:
                     return const AdminHomeScreen();
                 }
               }),
@@ -86,8 +86,10 @@ class LoginScreen extends StatelessWidget {
                             ),
                           ),
                           Positioned(
-                            top: (MediaQuery.of(context).size.height - 267.0) / 2,
-                            right: (MediaQuery.of(context).size.width - 282.0) / 2,
+                            top: (MediaQuery.of(context).size.height - 267.0) /
+                                2,
+                            right:
+                                (MediaQuery.of(context).size.width - 282.0) / 2,
                             child: Container(
                               constraints: const BoxConstraints(
                                 minHeight: 267.0,
@@ -120,21 +122,29 @@ class LoginScreen extends StatelessWidget {
                                           ),
                                           const Spacer(),
                                           SizedBox(
-                                            width: MediaQuery.of(context).size.width * 0.40,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.40,
                                             height: 55.0,
                                             child: defaultFormField(
-                                              controller: globalCubit.emailController,
+                                              controller:
+                                                  globalCubit.emailController,
                                               type: TextInputType.emailAddress,
-                                              textInputAction: TextInputAction.next,
+                                              textInputAction:
+                                                  TextInputAction.next,
                                               borderRadius: 10.0,
                                               isPrefixText: false,
                                               decoratedColor: AppColor.white,
                                               inputColor: AppColor.white,
                                               disabledColor: AppColor.white,
                                               textColor: AppColor.white,
-                                              validate: MyValidators.emailValidator,
+                                              validate:
+                                                  MyValidators.emailValidator,
                                               onSubmit: (_) {
-                                                FocusScope.of(context).requestFocus(globalCubit.passwordFocusNode);
+                                                FocusScope.of(context)
+                                                    .requestFocus(globalCubit
+                                                        .passwordFocusNode);
                                               },
                                               onChange: (_) {},
                                             ),
@@ -156,19 +166,26 @@ class LoginScreen extends StatelessWidget {
                                           ),
                                           const Spacer(),
                                           SizedBox(
-                                            width: MediaQuery.of(context).size.width * 0.40,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.40,
                                             height: 55.0,
                                             child: defaultFormField(
-                                              controller: globalCubit.passwordController,
-                                              type: TextInputType.visiblePassword,
-                                              textInputAction: TextInputAction.done,
+                                              controller: globalCubit
+                                                  .passwordController,
+                                              type:
+                                                  TextInputType.visiblePassword,
+                                              textInputAction:
+                                                  TextInputAction.done,
                                               borderRadius: 10.0,
                                               isPrefixText: false,
                                               decoratedColor: AppColor.white,
                                               inputColor: AppColor.white,
                                               disabledColor: AppColor.white,
                                               textColor: AppColor.white,
-                                              validate: MyValidators.passwordValidator,
+                                              validate: MyValidators
+                                                  .passwordValidator,
                                               onSubmit: (_) {},
                                               onChange: (_) {},
                                               isPassword: true,
@@ -176,54 +193,55 @@ class LoginScreen extends StatelessWidget {
                                           ),
                                         ],
                                       ),
-                                      const SizedBox(
-                                        height: 20.0,
-                                      ),
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: globalCubit.types
-                                            .map(
-                                              (e) => Row(
-                                            children: [
-                                              Transform.scale(
-                                                scale: 0.7,
-                                                child: SizedBox(
-                                                  height: 20.0,
-                                                  width: 20.0,
-                                                  child: Radio(
-                                                    activeColor: AppColor.white,
-                                                    fillColor: MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
-                                                      return AppColor.white;
-                                                    }),
-                                                    value: globalCubit.types.indexOf(e),
-                                                    groupValue: globalCubit.selectedTypeValue,
-                                                    onChanged: (value) {
-                                                      globalCubit.changeTypeSelection(value!);
-                                                      print('Radio Button Selected: $value');
-                                                    },
-                                                  ),
-                                                ),
-                                              ),
-                                              Text(
-                                                e.toString(),
-                                                textAlign: TextAlign.start,
-                                                style: const TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 12.0,
-                                                  fontWeight: FontWeight.w700,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ).toList(),
-                                      ),
+                                      // const SizedBox(
+                                      //   height: 20.0,
+                                      // ),
+                                      // Row(
+                                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      //   children: globalCubit.types
+                                      //       .map(
+                                      //         (e) => Row(
+                                      //       children: [
+                                      //         Transform.scale(
+                                      //           scale: 0.7,
+                                      //           child: SizedBox(
+                                      //             height: 20.0,
+                                      //             width: 20.0,
+                                      //             child: Radio(
+                                      //               activeColor: AppColor.white,
+                                      //               fillColor: MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
+                                      //                 return AppColor.white;
+                                      //               }),
+                                      //               value: globalCubit.types.indexOf(e),
+                                      //               groupValue: globalCubit.selectedTypeValue,
+                                      //               onChanged: (value) {
+                                      //                 globalCubit.changeTypeSelection(value!);
+                                      //                 print('Radio Button Selected: $value');
+                                      //               },
+                                      //             ),
+                                      //           ),
+                                      //         ),
+                                      //         Text(
+                                      //           e.toString(),
+                                      //           textAlign: TextAlign.start,
+                                      //           style: const TextStyle(
+                                      //             color: Colors.white,
+                                      //             fontSize: 12.0,
+                                      //             fontWeight: FontWeight.w700,
+                                      //           ),
+                                      //         ),
+                                      //       ],
+                                      //     ),
+                                      //   ).toList(),
+                                      // ),
                                       const SizedBox(
                                         height: 30.0,
                                       ),
                                       Container(
                                         decoration: BoxDecoration(
                                           color: AppColor.loginButton,
-                                          borderRadius: BorderRadius.circular(10.0),
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
                                         ),
                                         child: MaterialButton(
                                           onPressed: () {
@@ -231,7 +249,8 @@ class LoginScreen extends StatelessWidget {
                                           },
                                           minWidth: 224.0,
                                           child: const Row(
-                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
                                             children: [
                                               Text(
                                                 'تسجيل الدخول',

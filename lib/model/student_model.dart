@@ -26,9 +26,10 @@ class Student {
     required this.phone,
     required this.mobile,
     required this.email,
-    required this.password, // إضافة حقل كلمة المرور
+    required this.password,
   });
 
+  // Convert a Student object to a map
   Map<String, dynamic> toMap() {
     return {
       'name': name,
@@ -45,5 +46,24 @@ class Student {
       'email': email,
       'password': password,
     };
+  }
+
+  // Create a Student object from a map
+  factory Student.fromJson(Map<String, dynamic> json) {
+    return Student(
+      name: json['name'],
+      code: json['code'],
+      religion: json['religion'],
+      gender: json['gender'],
+      nationality: json['nationality'],
+      birthDate: json['birthDate'],
+      birthPlace: json['birthPlace'],
+      nationalId: json['nationalId'],
+      address: json['address'],
+      phone: json['phone'],
+      mobile: json['mobile'],
+      email: json['email'],
+      password: json['password'],
+    );
   }
 }

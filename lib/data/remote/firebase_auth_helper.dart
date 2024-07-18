@@ -1,9 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:faculty_project/model/account_type.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class FirebaseAuthHelper {
-  static Future<void> createAccount({
+  static Future<String> createAccount({
     required AccountType type,
     required String email,
     required String password,
@@ -14,11 +13,9 @@ class FirebaseAuthHelper {
       password: password,
     );
 
-    FirebaseFirestore.instance
-        .collection('accounts-types')
-        .doc(userCredential.user?.uid)
-        .set({
-      'account_type': type.name,
-    });
+    final uid = userCredential.user?.uid;
+    print("User UID: $uid");
+
+    return uid ?? '';
   }
 }

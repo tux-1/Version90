@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../business_logic/student_cubit/student_cubit.dart';
 import '../../styles/colors.dart';
+import '../../widget/student_app_bar.dart';
 
 class StudentDataScreen extends StatelessWidget {
   const StudentDataScreen({Key? key}) : super(key: key);
@@ -19,39 +20,8 @@ class StudentDataScreen extends StatelessWidget {
           return Builder(builder: (context) {
             final StudentCubit studentCubit = context.read<StudentCubit>();
             return Scaffold(
-              appBar: CustomAppBar(
-                appBarWidget: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                  child: Container(
-                    color: AppColor.babyBlue,
-                    child: const Row(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(
-                            left: 10.0,
-                          ),
-                          child: CircleAvatar(
-                            backgroundColor: AppColor.carosalBG,
-                            child: Icon(
-                              Icons.person_outline,
-                            ),
-                          ),
-                        ),
-                        Spacer(),
-                        Directionality(
-                          textDirection: TextDirection.rtl,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text('الاسم:'),
-                              Text('الكود:'),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+              appBar:const CustomAppBar(
+                appBarWidget:  StudentAppBar(),
               ),
               body: Directionality(
                 textDirection: TextDirection.rtl,
@@ -90,55 +60,55 @@ class StudentDataScreen extends StatelessWidget {
                                       children: [
                                         customUserDataItem(
                                           context: context,
-                                          txt: 'الاســــــــــم:', data: '',
+                                          txt: 'الاســــــــــم:', data: '${studentCubit.studentData?.name}',
                                         ),
                                         const SizedBox(
                                           height: 15.0,
                                         ),
                                         customUserDataItem(
                                           context: context,
-                                          txt: 'الكـــــــــــود:', data: '',
+                                          txt: 'الكـــــــــــود:', data: '${studentCubit.studentData?.code}',
                                         ),
                                         const SizedBox(
                                           height: 15.0,
                                         ),
                                         customUserDataItem(
                                           context: context,
-                                          txt: 'الديـــــــــانة:', data: '',
+                                          txt: 'الديـــــــــانة:', data: '${studentCubit.studentData?.religion}',
                                         ),
                                         const SizedBox(
                                           height: 15.0,
                                         ),
                                         customUserDataItem(
                                           context: context,
-                                          txt: 'الجــــنــــس:', data: '',
+                                          txt: 'الجــــنــــس:', data: '${studentCubit.studentData?.gender}',
                                         ),
                                         const SizedBox(
                                           height: 15.0,
                                         ),
                                         customUserDataItem(
                                           context: context,
-                                          txt: 'الجــنـســـية:', data: '',
+                                          txt: 'الجــنـســـية:', data: '${studentCubit.studentData?.nationality}',
                                         ),
                                         const SizedBox(
                                           height: 15.0,
                                         ),
                                         customUserDataItem(
                                             context: context,
-                                            txt: 'تاريخ الميـلاد:', data: ''),
+                                            txt: 'تاريخ الميـلاد:', data: '${studentCubit.studentData?.birthDate}'),
                                         const SizedBox(
                                           height: 15.0,
                                         ),
                                         customUserDataItem(
                                           context: context,
-                                          txt: 'محل الميـلاد:', data: '',
+                                          txt: 'محل الميـلاد:', data: '${studentCubit.studentData?.birthPlace}',
                                         ),
                                         const SizedBox(
                                           height: 15.0,
                                         ),
                                         customUserDataItem(
                                           context: context,
-                                          txt: 'الرقم القومي:', data: '',
+                                          txt: 'الرقم القومي:', data: '${studentCubit.studentData?.nationalId}',
                                         ),
                                         const SizedBox(
                                           height: 7.0,
@@ -182,28 +152,28 @@ class StudentDataScreen extends StatelessWidget {
                                       children: [
                                         customUserDataItem(
                                           context: context,
-                                          txt: 'العنـــــــــــــوان:', data: '',
+                                          txt: 'العنـــــــــــــوان:', data: '${studentCubit.studentData?.address}',
                                         ),
                                         const SizedBox(
                                           height: 15.0,
                                         ),
                                         customUserDataItem(
                                           context: context,
-                                          txt: 'التليفون الأرضي:', data: '',
+                                          txt: 'التليفون الأرضي:', data: '${studentCubit.studentData?.phone}',
                                         ),
                                         const SizedBox(
                                           height: 15.0,
                                         ),
                                         customUserDataItem(
                                           context: context,
-                                          txt: 'المحمـــــــــــول:', data: '',
+                                          txt: 'المحمـــــــــــول:', data: '${studentCubit.studentData?.mobile}',
                                         ),
                                         const SizedBox(
                                           height: 15.0,
                                         ),
                                         customUserDataItem(
                                           context: context,
-                                          txt: 'البريد الإلكـتروني:', data: '',
+                                          txt: 'البريد الإلكـتروني:', data: '${studentCubit.studentData?.email}',
                                         ),
                                         const SizedBox(
                                           height: 7.0,

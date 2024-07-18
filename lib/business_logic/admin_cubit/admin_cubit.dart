@@ -146,12 +146,16 @@ class AdminCubit extends Cubit<AdminState> {
   List<Professor> professors = [];
   List<Affairs> affairs = [];
 
-  Future<void> addStudent(Student student) async {
+  void throwError(Object e) {
+    emit(AdminStudentAddError(e.toString()));
+  }
+
+  Future<void> addStudent(Student student, String id) async {
     try {
       // تحويل الطالب إلى خريطة
       Map<String, dynamic> studentData = student.toMap();
       // إضافة البيانات إلى Firestore
-      await _firestore.collection('students').add(studentData);
+      await _firestore.collection('students').doc(id).set(studentData);
 
       emit(AdminStudentAdded(students)); // يمكنك تحديث القائمة أو استبعادها
     } catch (e) {
@@ -159,9 +163,9 @@ class AdminCubit extends Cubit<AdminState> {
     }
   }
 
-  void addAdministrator(Administrator administrator) async {
+  void addAdministrator(Administrator administrator, String id) async {
     try {
-      await _firestore.collection('administrators').add(administrator.toJson());
+      await _firestore.collection('administrators').doc(id).set(administrator.toJson());
       administrators.add(administrator);
       emit(AdminAdministratorAdded(administrators));
     } catch (e) {
@@ -169,9 +173,9 @@ class AdminCubit extends Cubit<AdminState> {
     }
   }
 
-  void addProfessor(Professor professor) async {
+  void addProfessor(Professor professor, String id) async {
     try {
-      await _firestore.collection('professors').add(professor.toJson());
+      await _firestore.collection('professors').doc(id).set(professor.toJson());
       professors.add(professor);
       emit(AdminProfessorAdded(professors));
     } catch (e) {
@@ -251,7 +255,7 @@ class AdminCubit extends Cubit<AdminState> {
   Future<void> saveSchedule(Map<String, dynamic> scheduleData) async {
     emit(AdminSaveScheduleLoading());
     try {
-      await _firestore.collection('schedules').add(scheduleData);
+      await _firestore.collection('schedules').doc('gadwal').set(scheduleData);
       emit(AdminSaveScheduleSuccess());
     } catch (error) {
       emit(AdminSaveScheduleError(error.toString()));

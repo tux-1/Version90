@@ -1,18 +1,21 @@
 import 'package:bloc/bloc.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:faculty_project/data/remote/firebase_helper.dart';
+import 'package:faculty_project/model/student_model.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:meta/meta.dart';
 
 part 'student_state.dart';
 
 class StudentCubit extends Cubit<StudentState> {
-  StudentCubit() : super(StudentInitial());
-
-
+  StudentCubit() : super(StudentInitial()) {
+    initData();
+  }
 
   final oldpasswordcontroller = TextEditingController();
   final newpasswordcontroller = TextEditingController();
   final donepasswordcontroller = TextEditingController();
-
+  // Map<String, dynamic> schedule = {};
 
   List<String> modargatList = [
     'اختر....',
@@ -45,6 +48,39 @@ class StudentCubit extends Cubit<StudentState> {
     'فرقه 4',
   ];
 
+  Student? studentData;
+
+  Future<void> initData() async {
+    await getSchedule();
+    await getStudentData();
+  }
+
+  Future<void> getStudentData() async {
+    try {
+      emit(StudentLoading());
+      final userDataDoc = await FirebaseFirestore.instance
+          .collection('students')
+          .doc(FirebaseAuth.instance.currentUser?.uid)
+          .get();
+      print(userDataDoc.data());
+      studentData = Student.fromJson(userDataDoc.data()!);
+
+      emit(StudentLoadingFinished());
+    } catch (e) {
+      emit(StudentDataError(e.toString()));
+    }
+  }
+
+  Future<void> getSchedule() async {
+    try {
+      emit(StudentLoading());
+      final schedule = await FirebaseHelper.getSchedule();
+      emit(StudentDataLoaded(schedule));
+    } catch (e) {
+      emit(StudentDataError(e.toString()));
+    }
+  }
+
   void changeSelectedModarag(String value) {
     selectedModarag = value;
     emit(GlobalChangeSelectedType());
@@ -55,10 +91,8 @@ class StudentCubit extends Cubit<StudentState> {
     emit(GlobalChangeSelectedType());
   }
 
-  void changeSelectedAcademicYear(String value){
+  void changeSelectedAcademicYear(String value) {
     selectacademicyear = value;
     emit(GlobalChangeSelectedType());
   }
-
-
 }

@@ -1,4 +1,3 @@
-
 import 'package:faculty_project/business_logic/admin_cubit/admin_cubit.dart';
 import 'package:faculty_project/business_logic/admin_cubit/admin_state.dart';
 import 'package:faculty_project/data/remote/firebase_auth_helper.dart';
@@ -151,12 +150,17 @@ class StudentForm extends StatelessWidget {
                               password: passwordController
                                   .text, // استخدام كلمة المرور
                             );
-                            await FirebaseAuthHelper.createAccount(
+                            final id = await FirebaseAuthHelper.createAccount(
                               type: AccountType.student,
                               email: emailController.text,
                               password: passwordController.text,
+                            ).onError(
+                              (error, stackTrace) {
+                                adminCubit.throwError(error.toString());
+                                return '';
+                              },
                             );
-                            await adminCubit.addStudent(student);
+                            await adminCubit.addStudent(student, id);
                             adminCubit.clearStudentControllers();
                             emailController.clear();
                             passwordController

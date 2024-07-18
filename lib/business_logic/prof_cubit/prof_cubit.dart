@@ -2,6 +2,8 @@ import 'package:bloc/bloc.dart';
 import 'package:faculty_project/business_logic/prof_cubit/prof_state.dart';
 import 'package:flutter/material.dart';
 
+import '../../data/remote/firebase_helper.dart';
+
 // Define a simple Student model
 class Student {
   final String name;
@@ -12,7 +14,9 @@ class Student {
 }
 
 class ProfCubit extends Cubit<ProfState> {
-  ProfCubit() : super(ProfInitial());
+  ProfCubit() : super(ProfInitial()){
+    getSchedule();
+  }
 
   final namecontroller = TextEditingController();
   final codecontroller = TextEditingController();
@@ -64,6 +68,16 @@ class ProfCubit extends Cubit<ProfState> {
   void changeSelectedAcademicYear(String value) {
     selectacademicyear = value;
     emit(GlobalChangeSelectedType());
+  }
+
+  void getSchedule() async {
+    try {
+      emit(ProfLoadingState());
+      final schedule = await FirebaseHelper.getSchedule();
+      emit(ProfTableLoaded(schedule));
+    } catch (e) {
+      emit(ProfDataError(e.toString()));
+    }
   }
 
   void fetchStudentsForSubject(String subject) {

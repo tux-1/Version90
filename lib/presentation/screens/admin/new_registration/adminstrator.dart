@@ -1,4 +1,5 @@
 import 'package:faculty_project/business_logic/admin_cubit/admin_cubit.dart';
+import 'package:faculty_project/data/remote/firebase_auth_helper.dart';
 import 'package:faculty_project/presentation/screens/login/login_screen.dart';
 import 'package:faculty_project/presentation/styles/colors.dart';
 import 'package:faculty_project/presentation/widget/custom_app_bar.dart';
@@ -8,6 +9,7 @@ import 'package:faculty_project/presentation/widget/custom_row_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../business_logic/admin_cubit/admin_state.dart';
+import '../../../../model/account_type.dart';
 import '../../../../model/adminstrator_model.dart';
 
 class AdminstratorForm extends StatelessWidget {
@@ -105,11 +107,11 @@ class AdminstratorForm extends StatelessWidget {
                       customInputData(txt: 'البريد الإلكتروني:',
                           controller: adminCubit.adminEmailController),
                       customInputData(txt: 'كلمه السر :',
-                          controller: adminCubit.adminEmailController),
+                          controller: adminCubit.passwordController),
                       const SizedBox(height: 10.0),
                       Center(
                         child: IconButton(
-                          onPressed: () {
+                          onPressed: () async {
                             final administrator = Administrator(
                               name: adminCubit.adminNameController.text,
                               code: adminCubit.adminCodeController.text,
@@ -128,7 +130,17 @@ class AdminstratorForm extends StatelessWidget {
                               mobile: adminCubit.adminMobileController.text,
                               email: adminCubit.adminEmailController.text,
                             );
-                            adminCubit.addAdministrator(administrator);
+                            final id = await FirebaseAuthHelper.createAccount(
+                              type: AccountType.admin,
+                              email: adminCubit.adminEmailController.text,
+                              password: adminCubit.passwordController.text,
+                            ).onError(
+                              (error, stackTrace) {
+                                adminCubit.throwError(error.toString());
+                                return '';
+                              },
+                            );
+                            adminCubit.addAdministrator(administrator, id);
                             adminCubit.clearAdministratorControllers();
                           },
                           icon: const Icon(Icons.save, size: 30.0),

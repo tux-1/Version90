@@ -1,10 +1,10 @@
+import 'package:faculty_project/constants/empty_schedule.dart';
 import 'package:faculty_project/presentation/widget/custom_app_bar.dart';
 import 'package:faculty_project/presentation/widget/custom_row_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../business_logic/prof_cubit/prof_cubit.dart';
 import '../../../business_logic/prof_cubit/prof_state.dart';
-import '../../../constants/screens.dart';
 import '../../styles/colors.dart';
 import '../../widget/back_button.dart';
 
@@ -19,7 +19,10 @@ class ProfTableScreen extends StatelessWidget {
         listener: (context, state) async {},
         builder: (context, state) {
           return Builder(builder: (context) {
-            final ProfCubit profCubit = context.read<ProfCubit>();
+            Map<String, dynamic> schedule = emptyScheduleJson;
+            if (state is ProfTableLoaded) {
+              schedule = state.tableData;
+            }
             return Scaffold(
               appBar: CustomAppBar(
                 appBarWidget: Padding(
@@ -86,7 +89,8 @@ class ProfTableScreen extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Container(
-                                    width:double.infinity,
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.9,
                                     decoration: const BoxDecoration(
                                       color: AppColor.carosalBG,
                                     ),
@@ -100,14 +104,16 @@ class ProfTableScreen extends StatelessWidget {
                                                 width: 80.0,
                                                 height: 80.0,
                                                 decoration: const BoxDecoration(
-                                                  color: AppColor.tableActiveCell,
+                                                  color:
+                                                      AppColor.tableActiveCell,
                                                 ),
                                               ),
                                               Container(
                                                 width: 80.0,
                                                 height: 80.0,
                                                 decoration: BoxDecoration(
-                                                  color: AppColor.tableActiveCell,
+                                                  color:
+                                                      AppColor.tableActiveCell,
                                                   border: Border.all(
                                                     color: Colors.black,
                                                     width: 1,
@@ -120,8 +126,9 @@ class ProfTableScreen extends StatelessWidget {
                                               Container(
                                                 width: 80.0,
                                                 height: 80.0,
-                                                decoration:  BoxDecoration(
-                                                  color: AppColor.tableActiveCell,
+                                                decoration: BoxDecoration(
+                                                  color:
+                                                      AppColor.tableActiveCell,
                                                   border: Border.all(
                                                     color: Colors.black,
                                                     width: 1,
@@ -134,8 +141,9 @@ class ProfTableScreen extends StatelessWidget {
                                               Container(
                                                 width: 80.0,
                                                 height: 80.0,
-                                                decoration:  BoxDecoration(
-                                                  color: AppColor.tableActiveCell,
+                                                decoration: BoxDecoration(
+                                                  color:
+                                                      AppColor.tableActiveCell,
                                                   border: Border.all(
                                                     color: Colors.black,
                                                     width: 1,
@@ -148,8 +156,9 @@ class ProfTableScreen extends StatelessWidget {
                                               Container(
                                                 width: 80.0,
                                                 height: 80.0,
-                                                decoration:  BoxDecoration(
-                                                  color: AppColor.tableActiveCell,
+                                                decoration: BoxDecoration(
+                                                  color:
+                                                      AppColor.tableActiveCell,
                                                   border: Border.all(
                                                     color: Colors.black,
                                                     width: 1,
@@ -162,8 +171,9 @@ class ProfTableScreen extends StatelessWidget {
                                               Container(
                                                 width: 80.0,
                                                 height: 80.0,
-                                                decoration:  BoxDecoration(
-                                                  color: AppColor.tableActiveCell,
+                                                decoration: BoxDecoration(
+                                                  color:
+                                                      AppColor.tableActiveCell,
                                                   border: Border.all(
                                                     color: Colors.black,
                                                     width: 1,
@@ -176,8 +186,9 @@ class ProfTableScreen extends StatelessWidget {
                                               Container(
                                                 width: 80.0,
                                                 height: 80.0,
-                                                decoration:  BoxDecoration(
-                                                  color: AppColor.tableActiveCell,
+                                                decoration: BoxDecoration(
+                                                  color:
+                                                      AppColor.tableActiveCell,
                                                   border: Border.all(
                                                     color: Colors.black,
                                                     width: 1,
@@ -194,8 +205,9 @@ class ProfTableScreen extends StatelessWidget {
                                               Container(
                                                 width: 80.0,
                                                 height: 80.0,
-                                                decoration:  BoxDecoration(
-                                                  color: AppColor.tableActiveCell,
+                                                decoration: BoxDecoration(
+                                                  color:
+                                                      AppColor.tableActiveCell,
                                                   border: Border.all(
                                                     color: Colors.black,
                                                     width: 1,
@@ -208,7 +220,7 @@ class ProfTableScreen extends StatelessWidget {
                                               Container(
                                                 width: 80.0,
                                                 height: 80.0,
-                                                decoration:  BoxDecoration(
+                                                decoration: BoxDecoration(
                                                   color: AppColor.cardGray,
                                                   border: Border.all(
                                                     color: Colors.black,
@@ -216,61 +228,47 @@ class ProfTableScreen extends StatelessWidget {
                                                   ),
                                                 ),
                                               ),
-                                              Container(
-                                                width: 80.0,
-                                                height: 80.0,
-                                                decoration:  BoxDecoration(
-                                                  color: AppColor.cardGray,
-                                                  border: Border.all(
-                                                    color: Colors.black,
-                                                    width: 1,
+                                              for (final day
+                                                  in schedule['days'])
+                                                Container(
+                                                  clipBehavior: Clip.antiAlias,
+                                                  width: 80.0,
+                                                  height: 80.0,
+                                                  decoration: BoxDecoration(
+                                                    color: AppColor.cardGray,
+                                                    border: Border.all(
+                                                      color: Colors.black,
+                                                      width: 1,
+                                                    ),
+                                                  ),
+                                                  child: Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    children: [
+                                                      Text(
+                                                        day['periods'][0]
+                                                            ['teacher'],
+                                                        maxLines: 2,
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        overflow:
+                                                            TextOverflow.clip,
+                                                      ),
+                                                      Text(
+                                                        day['periods'][0]
+                                                            ['subject'],
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        maxLines: 1,
+                                                        overflow:
+                                                            TextOverflow.clip,
+                                                      )
+                                                    ],
                                                   ),
                                                 ),
-                                              ),
-                                              Container(
-                                                width: 80.0,
-                                                height: 80.0,
-                                                decoration:  BoxDecoration(
-                                                  color: AppColor.cardGray,
-                                                  border: Border.all(
-                                                    color: Colors.black,
-                                                    width: 1,
-                                                  ),
-                                                ),
-                                              ),
-                                              Container(
-                                                width: 80.0,
-                                                height: 80.0,
-                                                decoration:  BoxDecoration(
-                                                  color: AppColor.cardGray,
-                                                  border: Border.all(
-                                                    color: Colors.black,
-                                                    width: 1,
-                                                  ),
-                                                ),
-                                              ),
-                                              Container(
-                                                width: 80.0,
-                                                height: 80.0,
-                                                decoration:  BoxDecoration(
-                                                  color: AppColor.cardGray,
-                                                  border: Border.all(
-                                                    color: Colors.black,
-                                                    width: 1,
-                                                  ),
-                                                ),
-                                              ),
-                                              Container(
-                                                width: 80.0,
-                                                height: 80.0,
-                                                decoration:  BoxDecoration(
-                                                  color: AppColor.cardGray,
-                                                  border: Border.all(
-                                                    color: Colors.black,
-                                                    width: 1,
-                                                  ),
-                                                ),
-                                              ),
                                             ],
                                           ),
                                           Column(
@@ -278,8 +276,9 @@ class ProfTableScreen extends StatelessWidget {
                                               Container(
                                                 width: 80.0,
                                                 height: 80.0,
-                                                decoration:  BoxDecoration(
-                                                  color: AppColor.tableActiveCell,
+                                                decoration: BoxDecoration(
+                                                  color:
+                                                      AppColor.tableActiveCell,
                                                   border: Border.all(
                                                     color: Colors.black,
                                                     width: 1,
@@ -292,7 +291,7 @@ class ProfTableScreen extends StatelessWidget {
                                               Container(
                                                 width: 80.0,
                                                 height: 80.0,
-                                                decoration:  BoxDecoration(
+                                                decoration: BoxDecoration(
                                                   color: AppColor.cardGray,
                                                   border: Border.all(
                                                     color: Colors.black,
@@ -300,61 +299,47 @@ class ProfTableScreen extends StatelessWidget {
                                                   ),
                                                 ),
                                               ),
-                                              Container(
-                                                width: 80.0,
-                                                height: 80.0,
-                                                decoration:  BoxDecoration(
-                                                  color: AppColor.cardGray,
-                                                  border: Border.all(
-                                                    color: Colors.black,
-                                                    width: 1,
+                                              for (final day
+                                                  in schedule['days'])
+                                                Container(
+                                                  clipBehavior: Clip.antiAlias,
+                                                  width: 80.0,
+                                                  height: 80.0,
+                                                  decoration: BoxDecoration(
+                                                    color: AppColor.cardGray,
+                                                    border: Border.all(
+                                                      color: Colors.black,
+                                                      width: 1,
+                                                    ),
+                                                  ),
+                                                  child: Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    children: [
+                                                      Text(
+                                                        day['periods'][1]
+                                                            ['teacher'],
+                                                        maxLines: 2,
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        overflow:
+                                                            TextOverflow.clip,
+                                                      ),
+                                                      Text(
+                                                        day['periods'][1]
+                                                            ['subject'],
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        maxLines: 1,
+                                                        overflow:
+                                                            TextOverflow.clip,
+                                                      )
+                                                    ],
                                                   ),
                                                 ),
-                                              ),
-                                              Container(
-                                                width: 80.0,
-                                                height: 80.0,
-                                                decoration:  BoxDecoration(
-                                                  color: AppColor.cardGray,
-                                                  border: Border.all(
-                                                    color: Colors.black,
-                                                    width: 1,
-                                                  ),
-                                                ),
-                                              ),
-                                              Container(
-                                                width: 80.0,
-                                                height: 80.0,
-                                                decoration:  BoxDecoration(
-                                                  color: AppColor.cardGray,
-                                                  border: Border.all(
-                                                    color: Colors.black,
-                                                    width: 1,
-                                                  ),
-                                                ),
-                                              ),
-                                              Container(
-                                                width: 80.0,
-                                                height: 80.0,
-                                                decoration:  BoxDecoration(
-                                                  color: AppColor.cardGray,
-                                                  border: Border.all(
-                                                    color: Colors.black,
-                                                    width: 1,
-                                                  ),
-                                                ),
-                                              ),
-                                              Container(
-                                                width: 80.0,
-                                                height: 80.0,
-                                                decoration:  BoxDecoration(
-                                                  color: AppColor.cardGray,
-                                                  border: Border.all(
-                                                    color: Colors.black,
-                                                    width: 1,
-                                                  ),
-                                                ),
-                                              ),
                                             ],
                                           ),
                                           Column(
@@ -362,8 +347,9 @@ class ProfTableScreen extends StatelessWidget {
                                               Container(
                                                 width: 80.0,
                                                 height: 80.0,
-                                                decoration:  BoxDecoration(
-                                                  color: AppColor.tableActiveCell,
+                                                decoration: BoxDecoration(
+                                                  color:
+                                                      AppColor.tableActiveCell,
                                                   border: Border.all(
                                                     color: Colors.black,
                                                     width: 1,
@@ -376,7 +362,7 @@ class ProfTableScreen extends StatelessWidget {
                                               Container(
                                                 width: 80.0,
                                                 height: 80.0,
-                                                decoration:  BoxDecoration(
+                                                decoration: BoxDecoration(
                                                   color: AppColor.cardGray,
                                                   border: Border.all(
                                                     color: Colors.black,
@@ -384,61 +370,47 @@ class ProfTableScreen extends StatelessWidget {
                                                   ),
                                                 ),
                                               ),
-                                              Container(
-                                                width: 80.0,
-                                                height: 80.0,
-                                                decoration:  BoxDecoration(
-                                                  color: AppColor.cardGray,
-                                                  border: Border.all(
-                                                    color: Colors.black,
-                                                    width: 1,
+                                              for (final day
+                                                  in schedule['days'])
+                                                Container(
+                                                  clipBehavior: Clip.antiAlias,
+                                                  width: 80.0,
+                                                  height: 80.0,
+                                                  decoration: BoxDecoration(
+                                                    color: AppColor.cardGray,
+                                                    border: Border.all(
+                                                      color: Colors.black,
+                                                      width: 1,
+                                                    ),
+                                                  ),
+                                                  child: Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    children: [
+                                                      Text(
+                                                        day['periods'][2]
+                                                            ['teacher'],
+                                                        maxLines: 2,
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        overflow:
+                                                            TextOverflow.clip,
+                                                      ),
+                                                      Text(
+                                                        day['periods'][2]
+                                                            ['subject'],
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        maxLines: 1,
+                                                        overflow:
+                                                            TextOverflow.clip,
+                                                      )
+                                                    ],
                                                   ),
                                                 ),
-                                              ),
-                                              Container(
-                                                width: 80.0,
-                                                height: 80.0,
-                                                decoration:  BoxDecoration(
-                                                  color: AppColor.cardGray,
-                                                  border: Border.all(
-                                                    color: Colors.black,
-                                                    width: 1,
-                                                  ),
-                                                ),
-                                              ),
-                                              Container(
-                                                width: 80.0,
-                                                height: 80.0,
-                                                decoration:  BoxDecoration(
-                                                  color: AppColor.cardGray,
-                                                  border: Border.all(
-                                                    color: Colors.black,
-                                                    width: 1,
-                                                  ),
-                                                ),
-                                              ),
-                                              Container(
-                                                width: 80.0,
-                                                height: 80.0,
-                                                decoration:  BoxDecoration(
-                                                  color: AppColor.cardGray,
-                                                  border: Border.all(
-                                                    color: Colors.black,
-                                                    width: 1,
-                                                  ),
-                                                ),
-                                              ),
-                                              Container(
-                                                width: 80.0,
-                                                height: 80.0,
-                                                decoration:  BoxDecoration(
-                                                  color: AppColor.cardGray,
-                                                  border: Border.all(
-                                                    color: Colors.black,
-                                                    width: 1,
-                                                  ),
-                                                ),
-                                              ),
                                             ],
                                           ),
                                           Column(
@@ -446,8 +418,9 @@ class ProfTableScreen extends StatelessWidget {
                                               Container(
                                                 width: 80.0,
                                                 height: 80.0,
-                                                decoration:  BoxDecoration(
-                                                  color: AppColor.tableActiveCell,
+                                                decoration: BoxDecoration(
+                                                  color:
+                                                      AppColor.tableActiveCell,
                                                   border: Border.all(
                                                     color: Colors.black,
                                                     width: 1,
@@ -460,7 +433,7 @@ class ProfTableScreen extends StatelessWidget {
                                               Container(
                                                 width: 80.0,
                                                 height: 80.0,
-                                                decoration:  BoxDecoration(
+                                                decoration: BoxDecoration(
                                                   color: AppColor.cardGray,
                                                   border: Border.all(
                                                     color: Colors.black,
@@ -468,61 +441,47 @@ class ProfTableScreen extends StatelessWidget {
                                                   ),
                                                 ),
                                               ),
-                                              Container(
-                                                width: 80.0,
-                                                height: 80.0,
-                                                decoration:  BoxDecoration(
-                                                  color: AppColor.cardGray,
-                                                  border: Border.all(
-                                                    color: Colors.black,
-                                                    width: 1,
+                                              for (final day
+                                                  in schedule['days'])
+                                                Container(
+                                                  clipBehavior: Clip.antiAlias,
+                                                  width: 80.0,
+                                                  height: 80.0,
+                                                  decoration: BoxDecoration(
+                                                    color: AppColor.cardGray,
+                                                    border: Border.all(
+                                                      color: Colors.black,
+                                                      width: 1,
+                                                    ),
+                                                  ),
+                                                  child: Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    children: [
+                                                      Text(
+                                                        day['periods'][3]
+                                                            ['teacher'],
+                                                        maxLines: 2,
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        overflow:
+                                                            TextOverflow.clip,
+                                                      ),
+                                                      Text(
+                                                        day['periods'][3]
+                                                            ['subject'],
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        maxLines: 1,
+                                                        overflow:
+                                                            TextOverflow.clip,
+                                                      )
+                                                    ],
                                                   ),
                                                 ),
-                                              ),
-                                              Container(
-                                                width: 80.0,
-                                                height: 80.0,
-                                                decoration:  BoxDecoration(
-                                                  color: AppColor.cardGray,
-                                                  border: Border.all(
-                                                    color: Colors.black,
-                                                    width: 1,
-                                                  ),
-                                                ),
-                                              ),
-                                              Container(
-                                                width: 80.0,
-                                                height: 80.0,
-                                                decoration:  BoxDecoration(
-                                                  color: AppColor.cardGray,
-                                                  border: Border.all(
-                                                    color: Colors.black,
-                                                    width: 1,
-                                                  ),
-                                                ),
-                                              ),
-                                              Container(
-                                                width: 80.0,
-                                                height: 80.0,
-                                                decoration:  BoxDecoration(
-                                                  color: AppColor.cardGray,
-                                                  border: Border.all(
-                                                    color: Colors.black,
-                                                    width: 1,
-                                                  ),
-                                                ),
-                                              ),
-                                              Container(
-                                                width: 80.0,
-                                                height: 80.0,
-                                                decoration:  BoxDecoration(
-                                                  color: AppColor.cardGray,
-                                                  border: Border.all(
-                                                    color: Colors.black,
-                                                    width: 1,
-                                                  ),
-                                                ),
-                                              ),
                                             ],
                                           ),
                                           Column(
@@ -530,8 +489,9 @@ class ProfTableScreen extends StatelessWidget {
                                               Container(
                                                 width: 80.0,
                                                 height: 80.0,
-                                                decoration:  BoxDecoration(
-                                                  color: AppColor.tableActiveCell,
+                                                decoration: BoxDecoration(
+                                                  color:
+                                                      AppColor.tableActiveCell,
                                                   border: Border.all(
                                                     color: Colors.black,
                                                     width: 1,
@@ -544,7 +504,7 @@ class ProfTableScreen extends StatelessWidget {
                                               Container(
                                                 width: 80.0,
                                                 height: 80.0,
-                                                decoration:  BoxDecoration(
+                                                decoration: BoxDecoration(
                                                   color: AppColor.cardGray,
                                                   border: Border.all(
                                                     color: Colors.black,
@@ -552,61 +512,47 @@ class ProfTableScreen extends StatelessWidget {
                                                   ),
                                                 ),
                                               ),
-                                              Container(
-                                                width: 80.0,
-                                                height: 80.0,
-                                                decoration:  BoxDecoration(
-                                                  color: AppColor.cardGray,
-                                                  border: Border.all(
-                                                    color: Colors.black,
-                                                    width: 1,
+                                              for (final day
+                                                  in schedule['days'])
+                                                Container(
+                                                  clipBehavior: Clip.antiAlias,
+                                                  width: 80.0,
+                                                  height: 80.0,
+                                                  decoration: BoxDecoration(
+                                                    color: AppColor.cardGray,
+                                                    border: Border.all(
+                                                      color: Colors.black,
+                                                      width: 1,
+                                                    ),
+                                                  ),
+                                                  child: Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    children: [
+                                                      Text(
+                                                        day['periods'][4]
+                                                            ['teacher'],
+                                                        maxLines: 2,
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        overflow:
+                                                            TextOverflow.clip,
+                                                      ),
+                                                      Text(
+                                                        day['periods'][4]
+                                                            ['subject'],
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        maxLines: 1,
+                                                        overflow:
+                                                            TextOverflow.clip,
+                                                      )
+                                                    ],
                                                   ),
                                                 ),
-                                              ),
-                                              Container(
-                                                width: 80.0,
-                                                height: 80.0,
-                                                decoration:  BoxDecoration(
-                                                  color: AppColor.cardGray,
-                                                  border: Border.all(
-                                                    color: Colors.black,
-                                                    width: 1,
-                                                  ),
-                                                ),
-                                              ),
-                                              Container(
-                                                width: 80.0,
-                                                height: 80.0,
-                                                decoration:  BoxDecoration(
-                                                  color: AppColor.cardGray,
-                                                  border: Border.all(
-                                                    color: Colors.black,
-                                                    width: 1,
-                                                  ),
-                                                ),
-                                              ),
-                                              Container(
-                                                width: 80.0,
-                                                height: 80.0,
-                                                decoration:  BoxDecoration(
-                                                  color: AppColor.cardGray,
-                                                  border: Border.all(
-                                                    color: Colors.black,
-                                                    width: 1,
-                                                  ),
-                                                ),
-                                              ),
-                                              Container(
-                                                width: 80.0,
-                                                height: 80.0,
-                                                decoration:  BoxDecoration(
-                                                  color: AppColor.cardGray,
-                                                  border: Border.all(
-                                                    color: Colors.black,
-                                                    width: 1,
-                                                  ),
-                                                ),
-                                              ),
                                             ],
                                           ),
                                         ],

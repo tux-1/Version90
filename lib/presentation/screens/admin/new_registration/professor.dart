@@ -1,4 +1,7 @@
 import 'package:faculty_project/business_logic/admin_cubit/admin_cubit.dart';
+import 'package:faculty_project/data/remote/firebase_auth_helper.dart';
+import 'package:faculty_project/model/account_type.dart';
+import 'package:faculty_project/model/professor_model.dart';
 import 'package:faculty_project/presentation/styles/colors.dart';
 import 'package:faculty_project/presentation/widget/custom_app_bar.dart';
 import 'package:faculty_project/presentation/widget/custom_banner.dart';
@@ -7,7 +10,6 @@ import 'package:faculty_project/presentation/widget/custom_row_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../business_logic/admin_cubit/admin_state.dart';
-import '../../../../model/adminstrator_model.dart';
 import '../../login/login_screen.dart';
 
 class ProfessorForm extends StatelessWidget {
@@ -109,8 +111,8 @@ class ProfessorForm extends StatelessWidget {
                       ),
                       Center(
                         child: IconButton(
-                          onPressed: () {
-                            final administrator = Administrator(
+                          onPressed: () async {
+                            final professor = Professor(
                               name: adminCubit.adminNameController.text,
                               code: adminCubit.adminCodeController.text,
                               religion: adminCubit.adminReligionController.text,
@@ -126,9 +128,19 @@ class ProfessorForm extends StatelessWidget {
                               address: adminCubit.adminAddressController.text,
                               phone: adminCubit.adminLandlineController.text,
                               mobile: adminCubit.adminMobileController.text,
-                              email: adminCubit.adminEmailController.text,
+                              email: adminCubit.professorEmailController.text,
                             );
-                            adminCubit.addAdministrator(administrator);
+                            final id = await FirebaseAuthHelper.createAccount(
+                              type: AccountType.professor,
+                              email: adminCubit.professorEmailController.text,
+                              password: adminCubit.adminEmailController.text,
+                            ).onError(
+                              (error, stackTrace) {
+                                adminCubit.throwError(error.toString());
+                                return '';
+                              },
+                            );
+                            adminCubit.addProfessor(professor, id);
                             adminCubit.clearAdministratorControllers();
                           },
                           icon: const Icon(Icons.save, size: 30.0),
