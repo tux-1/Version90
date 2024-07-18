@@ -5,6 +5,8 @@ import 'package:faculty_project/model/student_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../../model/app_notification.dart';
+
 part 'student_state.dart';
 
 class StudentCubit extends Cubit<StudentState> {
@@ -15,7 +17,7 @@ class StudentCubit extends Cubit<StudentState> {
   final oldpasswordcontroller = TextEditingController();
   final newpasswordcontroller = TextEditingController();
   final donepasswordcontroller = TextEditingController();
-  // Map<String, dynamic> schedule = {};
+  List<AppNotification> notifications = [];
 
   List<String> modargatList = [
     'اختر....',
@@ -53,6 +55,24 @@ class StudentCubit extends Cubit<StudentState> {
   Future<void> initData() async {
     await getSchedule();
     await getStudentData();
+    await getNotifications();
+  }
+
+  Future<void> getNotifications() async {
+    try {
+      emit(StudentLoading());
+      final notifsData = await FirebaseFirestore.instance
+          .collection('notifications')
+          .where('account_type', isEqualTo: 'student')
+          .get();
+
+      for (var doc in notifsData.docs) {
+        notifications.add(AppNotification.fromJson(doc.data()));
+      }
+      emit(StudentLoadingFinished());
+    } catch (e) {
+      emit(StudentDataError(e.toString()));
+    }
   }
 
   Future<void> getStudentData() async {

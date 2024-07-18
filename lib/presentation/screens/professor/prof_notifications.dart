@@ -20,226 +20,182 @@ class ProfNotificationScreen extends StatelessWidget {
         builder: (context, state) {
           final ProfCubit profCubit = context.read<ProfCubit>();
           return Scaffold(
-            appBar: const  CustomAppBar(
+              appBar: const CustomAppBar(
                 appBarWidget: ProfAppBar(),
               ),
-            body: Directionality(
-              textDirection: TextDirection.rtl,
-              child: SafeArea(
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        Container(
-                          height: 56.0,
-                          decoration: BoxDecoration(
-                            color: AppColor.grey,
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          child: const Center(
-                            child: Text(
-                              'الإشعارات',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 20.0,
-                                fontWeight: FontWeight.w700,
+              body: Directionality(
+                textDirection: TextDirection.rtl,
+                child: SafeArea(
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          Container(
+                            height: 56.0,
+                            decoration: BoxDecoration(
+                              color: AppColor.grey,
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            child: const Center(
+                              child: Text(
+                                'الإشعارات',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20.0,
+                                  fontWeight: FontWeight.w700,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        const SizedBox(
-                          height: 10.0,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            GestureDetector(
-                              onTap: () {},
-                              child: Container(
-                                width: MediaQuery.of(context).size.width * 0.22,
-                                height:
-                                    MediaQuery.of(context).size.height * 0.04,
-                                decoration: BoxDecoration(
-                                  color: Colors.grey,
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                                child: const Row(
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.only(right: 3.0),
-                                      child: Text(
-                                        'فلتر',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
-                                    Spacer(),
-                                    Icon(
-                                      Icons.filter_list_outlined,
-                                      color: Colors.blue,
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                            GestureDetector(
-                              onTap: () {},
-                              child: Container(
-                                width: MediaQuery.of(context).size.width * 0.22,
-                                height:
-                                    MediaQuery.of(context).size.height * 0.04,
-                                decoration: BoxDecoration(
-                                  color: Colors.grey,
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                                child: const Row(
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.only(right: 3.0),
-                                      child: Text(
-                                        'مسح',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
-                                    Spacer(),
-                                    Icon(
-                                      Icons.delete_forever,
-                                      color: Colors.blue,
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 25.0,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            height: 1.0,
-                            color: AppColor.grey,
-                          ),
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 8.0),
-                          child: Row(
+                          const SizedBox(height: 10.0),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              CircleAvatar(
-                                backgroundColor: AppColor.grey,
-                              ),
-                              SizedBox(
-                                width: 5.0,
-                              ),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'تغيير موعد محاضرة المادة 2',
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 16.0,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                              GestureDetector(
+                                onTap: () {},
+                                child: Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.22,
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.04,
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey,
+                                    borderRadius: BorderRadius.circular(5),
                                   ),
-                                  Text(
-                                    'تم تغيير موعد المحاضرة ليصبح يوم الأحد..........',
-                                    style: TextStyle(
-                                      color: Colors.grey,
-                                      fontSize: 14.0,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                                  child: const Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.only(right: 3.0),
+                                        child: Text(
+                                          'فلتر',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                      Spacer(),
+                                      Icon(
+                                        Icons.filter_list_outlined,
+                                        color: Colors.blue,
+                                      ),
+                                    ],
                                   ),
-                                ],
+                                ),
                               ),
-                              Spacer(),
-                              Directionality(
-                                textDirection: TextDirection.ltr,
-                                child: Icon(
-                                  Icons.arrow_back_ios_new,
+                              GestureDetector(
+                                onTap: () {},
+                                child: Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.22,
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.04,
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey,
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                  child: const Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.only(right: 3.0),
+                                        child: Text(
+                                          'مسح',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                      Spacer(),
+                                      Icon(
+                                        Icons.delete_forever,
+                                        color: Colors.blue,
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ],
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            height: 1.0,
-                            color: AppColor.grey,
+                          const SizedBox(height: 25.0),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              height: 1.0,
+                              color: AppColor.grey,
+                            ),
                           ),
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 8.0),
-                          child: Row(
-                            children: [
-                              CircleAvatar(
-                                backgroundColor: AppColor.grey,
-                              ),
-                              SizedBox(
-                                width: 5.0,
-                              ),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'تحديد امتحانات منتصف العام الدراسي',
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 16.0,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                          for (final notif in profCubit.notifications)
+                            Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8.0),
+                                  child: Row(
+                                    children: [
+                                      const CircleAvatar(
+                                        backgroundColor: AppColor.grey,
+                                      ),
+                                      const SizedBox(width: 5.0),
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              notif.title,
+                                              style: const TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 16.0,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                            Text(
+                                              notif.content,
+                                              maxLines: 2,
+                                              overflow: TextOverflow
+                                                  .ellipsis, // Updated overflow
+                                              style: const TextStyle(
+                                                color: Colors.grey,
+                                                fontSize: 14.0,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      const SizedBox(width: 8.0),
+                                      const Directionality(
+                                        textDirection: TextDirection.rtl,
+                                        child: Icon(
+                                          Icons.arrow_forward_ios_outlined,
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                  Text(
-                                    'سيتم بدء امتحانات منتصف العام الدراسي.........',
-                                    style: TextStyle(
-                                      color: Colors.grey,
-                                      fontSize: 14.0,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Spacer(),
-                              Directionality(
-                                textDirection: TextDirection.ltr,
-                                child: Icon(
-                                  Icons.arrow_back_ios_new,
                                 ),
-                              ),
-                            ],
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Container(
+                                    height: 1.0,
+                                    color: AppColor.grey,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.45,
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            height: 1.0,
-                            color: AppColor.grey,
-                          ),
-                        ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.45,
-                        ),
-                        customRowButton(
-                          padding: 0.0,
-                          context: context,
-                        ),
-                      ],
+                          customRowButton(padding: 0.0, context: context),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ),
-          );
+              ));
         },
       ),
     );

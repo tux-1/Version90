@@ -13,18 +13,19 @@ class ProfTableScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Map<String, dynamic> schedule = emptyScheduleJson;
     return BlocProvider(
       create: (context) => ProfCubit(),
       child: BlocConsumer<ProfCubit, ProfState>(
-        listener: (context, state) async {},
+        listener: (context, state) async {
+          if (state is ProfTableLoaded) {
+            schedule = state.tableData;
+          }
+        },
         builder: (context, state) {
           return Builder(builder: (context) {
-            Map<String, dynamic> schedule = emptyScheduleJson;
-            if (state is ProfTableLoaded) {
-              schedule = state.tableData;
-            }
             return Scaffold(
-              appBar: const  CustomAppBar(
+              appBar: const CustomAppBar(
                 appBarWidget: ProfAppBar(),
               ),
               body: Directionality(
@@ -539,11 +540,12 @@ class ProfTableScreen extends StatelessWidget {
                               ),
                             ),
                           ),
-                          const SizedBox(height: 10.0,),
-                         customRowButton(padding: 0.0,context: context),
+                          const SizedBox(
+                            height: 10.0,
+                          ),
+                          customRowButton(padding: 0.0, context: context),
                         ],
                       ),
-
                     ),
                   ),
                 ),

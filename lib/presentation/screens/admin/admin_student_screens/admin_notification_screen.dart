@@ -159,10 +159,10 @@ class AdminNotificationScreen extends StatelessWidget {
               SizedBox(
                 height: MediaQuery.of(context).size.height/10,
               ),
-              Directionality(
-                textDirection: TextDirection.rtl,
-                child: notificationScreenButtons(),
-              ),
+              // Directionality(
+              //   textDirection: TextDirection.rtl,
+              //   child: notificationScreenButtons(),
+              // ),
             ],
           ),
         ),

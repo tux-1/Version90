@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:faculty_project/business_logic/prof_cubit/prof_state.dart';
+import 'package:faculty_project/model/app_notification.dart';
 import 'package:faculty_project/model/professor_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -57,6 +58,25 @@ class ProfCubit extends Cubit<ProfState> {
   ];
 
   List<Student> studentsList = [];
+
+  List<AppNotification> notifications = [];
+
+  Future<void> getNotifications() async {
+    try {
+      emit(ProfLoadingState());
+      final notifsData = await FirebaseFirestore.instance
+          .collection('notifications')
+          .where('account_type', isEqualTo: 'professor')
+          .get();
+
+      for (var doc in notifsData.docs) {
+        notifications.add(AppNotification.fromJson(doc.data()));
+      }
+      emit(ProfDataFetched());
+    } catch (e) {
+      emit(ProfDataError(e.toString()));
+    }
+  }
 
   void changeSelectedModarag(String value) {
     selectedModarag = value;
@@ -124,5 +144,6 @@ class ProfCubit extends Cubit<ProfState> {
   Future<void> initData() async {
     await getSchedule();
     await getData();
+    await getNotifications();
   }
 }

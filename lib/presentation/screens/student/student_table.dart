@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../business_logic/student_cubit/student_cubit.dart';
 import '../../styles/colors.dart';
-import '../../widget/back_button.dart';
 
 class StudentTableScreen extends StatelessWidget {
   const StudentTableScreen({Key? key}) : super(key: key);

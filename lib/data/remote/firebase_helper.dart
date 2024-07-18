@@ -15,11 +15,10 @@ class FirebaseHelper {
     return scheduleDocument.data() ?? {};
   }
 
-  static Future<void> uploadPicture({
-    required File file,
-    required AccountType accountType,
-    required String uid
-  }) async {
+  static Future<void> uploadPicture(
+      {required File file,
+      required AccountType accountType,
+      required String uid}) async {
     final ref = _firebaseStorage.ref().child('user_images').child('$uid.jpg');
 
     await ref.putFile(File(file.path)).whenComplete(() => null);
@@ -31,5 +30,17 @@ class FirebaseHelper {
       AccountType.admin => 'administrators',
     };
     _firestore.collection(collection).doc(uid).update({'imageUrl': url});
+  }
+
+  static Future<void> sendNotification({
+    required String title,
+    required String content,
+    required AccountType recipientType,
+  }) async {
+    _firestore.collection('notifications').add({
+      'account_type':recipientType.name,
+      'title': title,
+      'content': content,
+    });
   }
 }
