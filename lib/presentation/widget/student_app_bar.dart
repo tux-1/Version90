@@ -17,15 +17,18 @@ class StudentAppBar extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           child: Container(
             color: AppColor.babyBlue,
-            child:  Row(
+            child: Row(
               children: [
-                const Padding(
-                  padding: EdgeInsets.only(
+                Padding(
+                  padding: const EdgeInsets.only(
                     left: 10.0,
                   ),
                   child: CircleAvatar(
                     backgroundColor: AppColor.carosalBG,
-                    child: Icon(
+                    foregroundImage: studentCubit.studentData?.imageUrl == null
+                        ? null
+                        : NetworkImage(studentCubit.studentData!.imageUrl!),
+                    child: const Icon(
                       Icons.person_outline,
                     ),
                   ),

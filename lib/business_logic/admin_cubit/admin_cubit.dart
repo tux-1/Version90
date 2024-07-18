@@ -155,6 +155,7 @@ class AdminCubit extends Cubit<AdminState> {
       // تحويل الطالب إلى خريطة
       Map<String, dynamic> studentData = student.toMap();
       // إضافة البيانات إلى Firestore
+      
       await _firestore.collection('students').doc(id).set(studentData);
 
       emit(AdminStudentAdded(students)); // يمكنك تحديث القائمة أو استبعادها

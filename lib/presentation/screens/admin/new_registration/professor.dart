@@ -1,3 +1,6 @@
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:faculty_project/business_logic/admin_cubit/admin_cubit.dart';
 import 'package:faculty_project/data/remote/firebase_auth_helper.dart';
 import 'package:faculty_project/model/account_type.dart';
@@ -9,12 +12,20 @@ import 'package:faculty_project/presentation/widget/custom_input_data.dart';
 import 'package:faculty_project/presentation/widget/custom_row_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import '../../../../business_logic/admin_cubit/admin_state.dart';
 import '../../login/login_screen.dart';
 
-class ProfessorForm extends StatelessWidget {
+class ProfessorForm extends StatefulWidget {
   const ProfessorForm({super.key});
 
+  @override
+  State<ProfessorForm> createState() => _ProfessorFormState();
+}
+
+class _ProfessorFormState extends State<ProfessorForm> {
+  XFile? picture;
+  Uint8List? uint8listPicture;
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -80,6 +91,36 @@ class ProfessorForm extends StatelessWidget {
                     children: [
                       customBanner('أستاذ جامعي'),
                       const SizedBox(height: 10.0),
+                       Row(
+                        children: [
+                          const Text(
+                            'الصورة:',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(width: 50),
+                          IconButton(
+                            onPressed: () async {
+                              final ImagePicker picker = ImagePicker();
+                                picture = await picker.pickImage(
+                                source: ImageSource.gallery,
+                              );
+                              uint8listPicture = await picture?.readAsBytes();
+                              setState(() {});
+                            },
+                            icon: const Icon(
+                              Icons.camera_alt,
+                            ),
+                          ),
+                          CircleAvatar(
+                            backgroundImage: uint8listPicture == null
+                                ? null
+                                : MemoryImage(uint8listPicture!),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 10.0),
                       customInputData(txt: 'الاســــــــــــــم:',
                           controller: adminCubit.professorNameController),
                       customInputData(txt: 'الكـــــــــــــــود:',
@@ -130,10 +171,14 @@ class ProfessorForm extends StatelessWidget {
                               mobile: adminCubit.adminMobileController.text,
                               email: adminCubit.professorEmailController.text,
                             );
+                             if (picture == null) {
+                              adminCubit.throwError('Select a picture');
+                            }
                             final id = await FirebaseAuthHelper.createAccount(
                               type: AccountType.professor,
                               email: adminCubit.professorEmailController.text,
                               password: adminCubit.adminEmailController.text,
+                              file: File(picture!.path)
                             ).onError(
                               (error, stackTrace) {
                                 adminCubit.throwError(error.toString());

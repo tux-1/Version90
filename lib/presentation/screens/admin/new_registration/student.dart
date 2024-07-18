@@ -1,3 +1,6 @@
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:faculty_project/business_logic/admin_cubit/admin_cubit.dart';
 import 'package:faculty_project/business_logic/admin_cubit/admin_state.dart';
 import 'package:faculty_project/data/remote/firebase_auth_helper.dart';
@@ -10,12 +13,23 @@ import 'package:faculty_project/presentation/widget/custom_input_data.dart';
 import 'package:faculty_project/presentation/widget/custom_row_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import '../../../../model/student_model.dart';
 
-class StudentForm extends StatelessWidget {
-  StudentForm({super.key});
+class StudentForm extends StatefulWidget {
+  const StudentForm({super.key});
+
+  @override
+  State<StudentForm> createState() => _StudentFormState();
+}
+
+class _StudentFormState extends State<StudentForm> {
   final emailController = TextEditingController();
+
   final passwordController = TextEditingController();
+  XFile? picture;
+  Uint8List? uint8listPicture;
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -82,6 +96,37 @@ class StudentForm extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       customBanner('طالب'),
+                      const SizedBox(height: 10.0),
+                      Row(
+                        children: [
+                          const Text(
+                            'الصورة:',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(width: 50),
+                          IconButton(
+                            onPressed: () async {
+                              final ImagePicker picker = ImagePicker();
+                              picture = await picker.pickImage(
+                                source: ImageSource.gallery,
+                              );
+
+                              uint8listPicture = await picture?.readAsBytes();
+                              setState(() {});
+                            },
+                            icon: const Icon(
+                              Icons.camera_alt,
+                            ),
+                          ),
+                          CircleAvatar(
+                            backgroundImage: uint8listPicture == null
+                                ? null
+                                : MemoryImage(uint8listPicture!),
+                          ),
+                        ],
+                      ),
                       const SizedBox(height: 10.0),
                       customInputData(
                           txt: 'الاســــــــــــــم:',
@@ -150,11 +195,17 @@ class StudentForm extends StatelessWidget {
                               password: passwordController
                                   .text, // استخدام كلمة المرور
                             );
+                            if (uint8listPicture == null) {
+                              print(picture);
+                              adminCubit.throwError('Select a picture');
+                              return;
+                            }
                             final id = await FirebaseAuthHelper.createAccount(
-                              type: AccountType.student,
-                              email: emailController.text,
-                              password: passwordController.text,
-                            ).onError(
+                                    type: AccountType.student,
+                                    email: emailController.text,
+                                    password: passwordController.text,
+                                    file: File(picture!.path))
+                                .onError(
                               (error, stackTrace) {
                                 adminCubit.throwError(error.toString());
                                 return '';

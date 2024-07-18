@@ -1,3 +1,6 @@
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:faculty_project/business_logic/admin_cubit/admin_cubit.dart';
 import 'package:faculty_project/data/remote/firebase_auth_helper.dart';
 import 'package:faculty_project/presentation/screens/login/login_screen.dart';
@@ -8,13 +11,21 @@ import 'package:faculty_project/presentation/widget/custom_input_data.dart';
 import 'package:faculty_project/presentation/widget/custom_row_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import '../../../../business_logic/admin_cubit/admin_state.dart';
 import '../../../../model/account_type.dart';
 import '../../../../model/adminstrator_model.dart';
 
-class AdminstratorForm extends StatelessWidget {
+class AdminstratorForm extends StatefulWidget {
   const AdminstratorForm({super.key});
 
+  @override
+  State<AdminstratorForm> createState() => _AdminstratorFormState();
+}
+
+class _AdminstratorFormState extends State<AdminstratorForm> {
+  XFile? picture;
+  Uint8List? uint8listPicture;
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -82,31 +93,74 @@ class AdminstratorForm extends StatelessWidget {
                     children: [
                       customBanner('إداري'),
                       const SizedBox(height: 10.0),
-                      customInputData(txt: 'الاســــــــــــــم:',
+                      Row(
+                        children: [
+                          const Text(
+                            'الصورة:',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(width: 50),
+                          IconButton(
+                            onPressed: () async {
+                              final ImagePicker picker = ImagePicker();
+                              picture = await picker.pickImage(
+                                source: ImageSource.gallery,
+                              );
+                              uint8listPicture = await picture?.readAsBytes();
+                              setState(() {});
+                            },
+                            icon: const Icon(
+                              Icons.camera_alt,
+                            ),
+                          ),
+                          CircleAvatar(
+                            backgroundImage: uint8listPicture == null
+                                ? null
+                                : MemoryImage(uint8listPicture!),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 10.0),
+                      customInputData(
+                          txt: 'الاســــــــــــــم:',
                           controller: adminCubit.adminNameController),
-                      customInputData(txt: 'الكـــــــــــــــود:',
+                      customInputData(
+                          txt: 'الكـــــــــــــــود:',
                           controller: adminCubit.adminCodeController),
-                      customInputData(txt: 'الديـــــــــــــانة:',
+                      customInputData(
+                          txt: 'الديـــــــــــــانة:',
                           controller: adminCubit.adminReligionController),
-                      customInputData(txt: 'الجنــــــــــــس:',
+                      customInputData(
+                          txt: 'الجنــــــــــــس:',
                           controller: adminCubit.adminGenderController),
-                      customInputData(txt: 'الجنسـيــــــــــة:',
+                      customInputData(
+                          txt: 'الجنسـيــــــــــة:',
                           controller: adminCubit.adminNationalityController),
-                      customInputData(txt: 'تاريخ الميـــــلاد:',
+                      customInputData(
+                          txt: 'تاريخ الميـــــلاد:',
                           controller: adminCubit.adminBirthDateController),
-                      customInputData(txt: 'محل الميــــــلاد:',
+                      customInputData(
+                          txt: 'محل الميــــــلاد:',
                           controller: adminCubit.adminBirthPlaceController),
-                      customInputData(txt: 'الرقم القومـــــي:',
+                      customInputData(
+                          txt: 'الرقم القومـــــي:',
                           controller: adminCubit.adminNationalIdController),
-                      customInputData(txt: 'العنـــــــــــــوان:',
+                      customInputData(
+                          txt: 'العنـــــــــــــوان:',
                           controller: adminCubit.adminAddressController),
-                      customInputData(txt: 'التليفون الأرضي:',
+                      customInputData(
+                          txt: 'التليفون الأرضي:',
                           controller: adminCubit.adminLandlineController),
-                      customInputData(txt: 'المحمــــــــــول:',
+                      customInputData(
+                          txt: 'المحمــــــــــول:',
                           controller: adminCubit.adminMobileController),
-                      customInputData(txt: 'البريد الإلكتروني:',
+                      customInputData(
+                          txt: 'البريد الإلكتروني:',
                           controller: adminCubit.adminEmailController),
-                      customInputData(txt: 'كلمه السر :',
+                      customInputData(
+                          txt: 'كلمه السر :',
                           controller: adminCubit.passwordController),
                       const SizedBox(height: 10.0),
                       Center(
@@ -130,11 +184,16 @@ class AdminstratorForm extends StatelessWidget {
                               mobile: adminCubit.adminMobileController.text,
                               email: adminCubit.adminEmailController.text,
                             );
+                            if (picture == null) {
+                              adminCubit.throwError('Select a picture');
+                            }
                             final id = await FirebaseAuthHelper.createAccount(
-                              type: AccountType.admin,
-                              email: adminCubit.adminEmailController.text,
-                              password: adminCubit.passwordController.text,
-                            ).onError(
+                                    type: AccountType.admin,
+                                    email: adminCubit.adminEmailController.text,
+                                    password:
+                                        adminCubit.passwordController.text,
+                                    file: File(picture!.path))
+                                .onError(
                               (error, stackTrace) {
                                 adminCubit.throwError(error.toString());
                                 return '';

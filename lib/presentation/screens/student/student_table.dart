@@ -13,16 +13,17 @@ class StudentTableScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Map<String, dynamic> schedule = emptyScheduleJson;
     return BlocProvider(
       create: (context) => StudentCubit(),
       child: BlocConsumer<StudentCubit, StudentState>(
-        listener: (context, state) async {},
+        listener: (context, state) async {
+          if (state is StudentDataLoaded) {
+            schedule = state.tableData;
+          }
+        },
         builder: (context, state) {
           return Builder(builder: (context) {
-            Map<String, dynamic> schedule = emptyScheduleJson;
-            if (state is StudentDataLoaded) {
-              schedule = state.tableData;
-            }
             return Scaffold(
               appBar: const CustomAppBar(
                 appBarWidget: StudentAppBar(),

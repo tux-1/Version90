@@ -104,16 +104,16 @@ class StudentHomeScreen extends StatelessWidget {
                         const SizedBox(
                           height: 20.0,
                         ),
-                        customItemContainer(
-                            context: context,
-                            txt: 'نماذج الامتحانات',
-                            function: () {
-                              Navigator.pushNamed(
-                                  context, Screens.studentQuesScreen);
-                            }),
-                        const SizedBox(
-                          height: 20.0,
-                        ),
+                        // customItemContainer(
+                        //     context: context,
+                        //     txt: 'نماذج الامتحانات',
+                        //     function: () {
+                        //       Navigator.pushNamed(
+                        //           context, Screens.studentQuesScreen);
+                        //     }),
+                        // const SizedBox(
+                        //   height: 20.0,
+                        // ),
                         customItemContainer(
                           context: context,
                           txt: 'الإشعارات',

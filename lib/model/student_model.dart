@@ -12,10 +12,12 @@ class Student {
   String mobile;
   String email;
   String password;
+  String? imageUrl;
 
   Student({
     required this.name,
     required this.code,
+    this.imageUrl,
     required this.religion,
     required this.gender,
     required this.nationality,
@@ -51,6 +53,7 @@ class Student {
   // Create a Student object from a map
   factory Student.fromJson(Map<String, dynamic> json) {
     return Student(
+      imageUrl: json['imageUrl'],
       name: json['name'],
       code: json['code'],
       religion: json['religion'],

@@ -148,16 +148,16 @@ class AdminHomeScreen extends StatelessWidget {
                       const SizedBox(
                         height: 20.0,
                       ),
-                      customItemContainer(
-                          context: context,
-                          txt: 'اضافة حساب',
-                          function: () {
-                            Navigator.pushNamed(
-                                context, Screens.addAccounts);
-                          }),
-                      const SizedBox(
-                        height: 20.0,
-                      ),
+                      // customItemContainer(
+                      //     context: context,
+                      //     txt: 'اضافة حساب',
+                      //     function: () {
+                      //       Navigator.pushNamed(
+                      //           context, Screens.addAccounts);
+                      //     }),
+                      // const SizedBox(
+                      //   height: 20.0,
+                      // ),
                       customRowButton(padding: 90.0, context: context),
                     ],
                   ),
