@@ -1,15 +1,18 @@
 import 'package:faculty_project/business_logic/admin_cubit/admin_cubit.dart';
 import 'package:faculty_project/business_logic/admin_cubit/admin_state.dart';
 import 'package:faculty_project/constants/screens.dart';
+import 'package:faculty_project/presentation/screens/admin/admin_student_screens/academic_registration_data_screen.dart';
 import 'package:faculty_project/presentation/styles/colors.dart';
 import 'package:faculty_project/presentation/widget/custom_app_bar.dart';
 import 'package:faculty_project/presentation/widget/custom_banner.dart';
 import 'package:faculty_project/presentation/widget/custom_row_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'widgets/student_info_fields.dart'; // Import the new widget
 
 class StudentDetailScreen extends StatelessWidget {
-  const StudentDetailScreen({super.key});
+  final String? uid;
+  const StudentDetailScreen({super.key, this.uid});
 
   @override
   Widget build(BuildContext context) {
@@ -17,110 +20,44 @@ class StudentDetailScreen extends StatelessWidget {
       create: (BuildContext context) => AdminCubit(),
       child: BlocConsumer<AdminCubit, AdminState>(
         listener: (BuildContext context, AdminState state) {},
-        builder: (BuildContext context, AdminState state) => Scaffold(
-          appBar: CustomAppBar(
-            appBarWidget: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10.0),
-              child: Container(
-                color: AppColor.babyBlue,
-                child: const Row(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(left: 10.0),
-                      child: CircleAvatar(
-                        backgroundColor: AppColor.carosalBG,
-                        child: Icon(Icons.person_outline),
-                      ),
-                    ),
-                    Spacer(),
-                    Directionality(
-                      textDirection: TextDirection.rtl,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text('الاسم:'),
-                          Text('الكود:'),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          body: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: ListView(
-              children: [
-                customBanner('الطالب'),
-                const SizedBox(height: 20),
-                Container(
-                  color: Colors.grey,
-                  padding: const EdgeInsets.all(10),
-                  child: Column(
+        builder: (BuildContext context, AdminState state) {
+          return Scaffold(
+            appBar: CustomAppBar(
+              appBarWidget: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                child: Container(
+                  color: AppColor.babyBlue,
+                  child: const Row(
                     children: [
-                      Row(
-                        children: [
-                          Expanded(
-                            child: TextField(
-                              decoration: InputDecoration(
-                                filled: true,
-                                fillColor: Colors.grey[200],
-                                labelText: 'Level:',
-                                labelStyle:
-                                const TextStyle(color: Colors.black),
-                                border: const OutlineInputBorder(),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 10),
-                          Expanded(
-                            child: TextField(
-                              decoration: InputDecoration(
-                                filled: true,
-                                fillColor: Colors.grey[200],
-                                labelText: 'الاسم:',
-                                labelStyle:
-                                const TextStyle(color: Colors.black),
-                                border: const OutlineInputBorder(),
-                              ),
-                            ),
-                          ),
-                        ],
+                      Padding(
+                        padding: EdgeInsets.only(left: 10.0),
+                        child: CircleAvatar(
+                          backgroundColor: AppColor.carosalBG,
+                          child: Icon(Icons.person_outline),
+                        ),
                       ),
-                      const SizedBox(height: 10),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: TextField(
-                              decoration: InputDecoration(
-                                filled: true,
-                                fillColor: Colors.grey[200],
-                                labelText: 'GPA:',
-                                labelStyle:
-                                const TextStyle(color: Colors.black),
-                                border: const OutlineInputBorder(),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 10),
-                          Expanded(
-                            child: TextField(
-                              decoration: InputDecoration(
-                                filled: true,
-                                fillColor: Colors.grey[200],
-                                labelText: 'الكود:',
-                                labelStyle:
-                                const TextStyle(color: Colors.black),
-                                border: const OutlineInputBorder(),
-                              ),
-                            ),
-                          ),
-                        ],
+                      Spacer(),
+                      Directionality(
+                        textDirection: TextDirection.rtl,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text('الاسم:'),
+                            Text('الكود:'),
+                          ],
+                        ),
                       ),
                     ],
                   ),
                 ),
+              ),
+            ),
+            body: ListView(
+              padding: const EdgeInsets.all(16.0),
+              children: [
+                customBanner('الطالب'),
+                const SizedBox(height: 20),
+                StudentInfoFields(uid: uid), // Use the new widget here
                 const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () {
@@ -147,9 +84,11 @@ class StudentDetailScreen extends StatelessWidget {
                 const SizedBox(height: 15.0),
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.pushNamed(
+                    Navigator.push(
                       context,
-                      Screens.academicRegistrationDataScreen,
+                      MaterialPageRoute(
+                        builder: (context) => AcademicRegistrationDataScreen(uid: uid),
+                      ),
                     );
                   },
                   style: ElevatedButton.styleFrom(
@@ -219,8 +158,8 @@ class StudentDetailScreen extends StatelessWidget {
                 customRowButton(context: context, padding: 0.0),
               ],
             ),
-          ),
-        ),
+          );
+        },
       ),
     );
   }

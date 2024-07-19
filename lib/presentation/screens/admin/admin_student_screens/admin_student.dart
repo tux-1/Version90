@@ -1,6 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:faculty_project/business_logic/admin_cubit/admin_cubit.dart';
 import 'package:faculty_project/business_logic/admin_cubit/admin_state.dart';
-import 'package:faculty_project/constants/screens.dart';
+
 import 'package:faculty_project/presentation/styles/colors.dart';
 import 'package:faculty_project/presentation/widget/custom_app_bar.dart';
 import 'package:faculty_project/presentation/widget/custom_banner.dart';
@@ -8,8 +9,24 @@ import 'package:faculty_project/presentation/widget/custom_row_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class AdminStudentScreen extends StatelessWidget {
+import 'admin_student_detail_screen.dart';
+
+class AdminStudentScreen extends StatefulWidget {
   const AdminStudentScreen({super.key});
+
+  @override
+  State<AdminStudentScreen> createState() => _AdminStudentScreenState();
+}
+
+class _AdminStudentScreenState extends State<AdminStudentScreen> {
+  final searchFieldController = TextEditingController();
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    searchFieldController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -115,6 +132,10 @@ class AdminStudentScreen extends StatelessWidget {
                     ],
                   ),
                   TextField(
+                    onChanged: (value) {
+                      setState(() {});
+                    },
+                    controller: searchFieldController,
                     decoration: InputDecoration(
                       border: const OutlineInputBorder(),
                       hintText: adminCubit.isCodeSelected
@@ -125,8 +146,50 @@ class AdminStudentScreen extends StatelessWidget {
                   const SizedBox(height: 20),
                   Center(
                     child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, Screens.adminStudentDetailScreen,);
+                      onPressed: () async {
+                        final searchText = searchFieldController.text.trim();
+                        if (searchText.isEmpty) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text('Please enter a search term.')),
+                          );
+                          return;
+                        }
+
+                        try {
+                          QuerySnapshot querySnapshot;
+                          if (!adminCubit.isCodeSelected) {
+                            querySnapshot = await FirebaseFirestore.instance
+                                .collection('students')
+                                .where('code', isEqualTo: searchText)
+                                .get();
+                          } else {
+                            querySnapshot = await FirebaseFirestore.instance
+                                .collection('students')
+                                .where('name', isEqualTo: searchText)
+                                .get();
+                          }
+
+                          if (querySnapshot.docs.isNotEmpty) {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => StudentDetailScreen(
+                                    uid: querySnapshot.docs.first.id,
+                                  ),
+                                ));
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content: Text('No student found.')),
+                            );
+                          }
+                        } catch (e) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text('Failed to search for student.')),
+                          );
+                        }
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColor.loginButton,

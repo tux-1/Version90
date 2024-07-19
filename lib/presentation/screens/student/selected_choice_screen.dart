@@ -10,21 +10,26 @@ class SelectedChoiceScreen extends StatelessWidget {
 
   final Map<int, Map<String, String>> subjects = {
     0: {
-      'HE1234': 'Maths 1',
-      'HE5678': 'English',
+      'HU1001': 'Maths 1',
     },
     1: {
-      'HE2345': 'Maths 2',
-      'HE6789': 'Electronics',
+      'HU2001': 'Probability',
+      'HU2002': 'Analog Electronics 1',
     },
     2: {
-      'HE3456': 'Digital Electronics',
+      'HU3001': 'Communication Technology',
+      'HU3002': 'Signals',
+      'HU3003': 'Electronic Measurement',
     },
     3: {
-      'HE7890': 'Networks',
+      'HU4001': 'Digital Communication',
+      'HU4002': 'DSP',
+      'HU4003': 'Software Engineering',
     },
     4: {
-      'HE4567': 'Artificial Intelligence',
+      'HU5001': 'Machine Learning',
+      'HU5002': 'Computer Vision',
+      'HU5003': 'Embedded Systems',
     },
   };
 
@@ -74,12 +79,14 @@ class SelectedChoiceScreen extends StatelessWidget {
                                 .doc(userId)
                                 .get();
 
-                            final currentSubjects = studentDoc.data()?['subjects'] ?? {};
+                            final currentSubjects =
+                                studentDoc.data()?['subjects'] ?? {};
 
                             if (currentSubjects.length >= 2) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
-                                  content: Text('You can only register up to 2 subjects.'),
+                                  content: Text(
+                                      'You can only register up to 2 subjects.'),
                                 ),
                               );
                               return;
@@ -97,7 +104,8 @@ class SelectedChoiceScreen extends StatelessWidget {
                               );
                             } catch (e) {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text('Failed to add subject')),
+                                const SnackBar(
+                                    content: Text('Failed to add subject')),
                               );
                             }
                           }
@@ -107,7 +115,8 @@ class SelectedChoiceScreen extends StatelessWidget {
                     ),
                     const DataCell(Icon(Icons.check, color: Colors.green)),
                     const DataCell(
-                        Text('3')), // Assuming each subject is 3 hours
+                      Text('3'),
+                    ), // Assuming each subject is 3 hours
                     DataCell(Text(entry.value)),
                     DataCell(Text(entry.key)),
                   ]);

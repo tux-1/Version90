@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:faculty_project/business_logic/admin_cubit/admin_cubit.dart';
 import 'package:faculty_project/business_logic/admin_cubit/admin_state.dart';
 import 'package:faculty_project/presentation/widget/custom_app_bar.dart';
@@ -7,17 +8,19 @@ import 'package:flutter/material.dart';
 import 'package:faculty_project/presentation/styles/colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'widgets/student_info_fields.dart';
+
 class AcademicRegistrationDataScreen extends StatelessWidget {
-  const AcademicRegistrationDataScreen({super.key});
+  final String? uid;
+  const AcademicRegistrationDataScreen({super.key, this.uid});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) =>AdminCubit(),
-      child: BlocConsumer<AdminCubit,AdminState>(
-        listener: (BuildContext context, AdminState state) {  },
-        builder: (BuildContext context, AdminState state) =>
-            Scaffold(
+      create: (BuildContext context) => AdminCubit(),
+      child: BlocConsumer<AdminCubit, AdminState>(
+        listener: (BuildContext context, AdminState state) {},
+        builder: (BuildContext context, AdminState state) => Scaffold(
           appBar: CustomAppBar(
             appBarWidget: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -54,165 +57,107 @@ class AcademicRegistrationDataScreen extends StatelessWidget {
               children: [
                 customBanner('الطالب'),
                 const SizedBox(height: 20),
-                Container(
-                  color: Colors.grey,
-                  padding: const EdgeInsets.all(10),
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          Expanded(
-                            child: TextField(
-                              decoration: InputDecoration(
-                                filled: true,
-                                fillColor: Colors.grey[200],
-                                labelText: 'Level:',
-                                labelStyle: const TextStyle(color: Colors.black),
-                                border: const OutlineInputBorder(),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 10),
-                          Expanded(
-                            child: TextField(
-                              decoration: InputDecoration(
-                                filled: true,
-                                fillColor: Colors.grey[200],
-                                labelText: 'الاسم:',
-                                labelStyle: const TextStyle(color: Colors.black),
-                                border: const OutlineInputBorder(),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 10),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: TextField(
-                              decoration: InputDecoration(
-                                filled: true,
-                                fillColor: Colors.grey[200],
-                                labelText: 'GPA:',
-                                labelStyle: const TextStyle(color: Colors.black),
-                                border: const OutlineInputBorder(),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 10),
-                          Expanded(
-                            child: TextField(
-                              decoration: InputDecoration(
-                                filled: true,
-                                fillColor: Colors.grey[200],
-                                labelText: 'الكود:',
-                                labelStyle: const TextStyle(color: Colors.black),
-                                border: const OutlineInputBorder(),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
+                StudentInfoFields(uid: uid),
                 const SizedBox(height: 20),
                 customBanner('بيانات التسجيل الأكاديمي'),
                 const SizedBox(height: 10),
-                Directionality(
-                  textDirection: TextDirection.rtl,
-                  child: Table(
-                    border: TableBorder.all(color: Colors.black),
-                    columnWidths: const {
-                      0: FlexColumnWidth(2),
-                      1: FlexColumnWidth(3),
-                      2: FlexColumnWidth(2),
-                    },
-                    children: [
-                      const TableRow(
-                        decoration: BoxDecoration(color: Colors.grey),
+                FutureBuilder<DocumentSnapshot>(
+                  future: FirebaseFirestore.instance
+                      .collection('students')
+                      .doc(uid)
+                      .get(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+
+                    if (snapshot.hasError) {
+                      return Center(child: Text('Error: ${snapshot.error}'));
+                    }
+
+                    if (!snapshot.hasData || !snapshot.data!.exists) {
+                      return const Center(child: Text('Student not found.'));
+                    }
+
+                    final data = snapshot.data!.data() as Map<String, dynamic>?;
+                    final subjects = data?['subjects'] as Map<String, dynamic>?;
+
+                    if (subjects == null) {
+                      return const Center(child: Text('No subjects found.'));
+                    }
+
+                    // Generate table rows based on subjects
+                    final tableRows = subjects.entries.map((entry) {
+                      final code = entry.key;
+                      final name = entry.value;
+                      return TableRow(
                         children: [
                           Center(
                             child: Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: Text('الكود',
-                                  style: TextStyle(fontWeight: FontWeight.bold)),
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(code),
                             ),
                           ),
                           Center(
                             child: Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: Text('المادة',
-                                  style: TextStyle(fontWeight: FontWeight.bold)),
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(name),
                             ),
                           ),
-                          Center(
+                          const Center(
                             child: Padding(
                               padding: EdgeInsets.all(8.0),
-                              child: Text('الساعات',
-                                  style: TextStyle(fontWeight: FontWeight.bold)),
+                              child: Text('3'), // Fixed value for hours
                             ),
                           ),
                         ],
-                      ),
-                      // Add more TableRow widgets here to fill the table with actual data
-                      for (var i = 0; i < 4; i++)
-                        const TableRow(
-                          children: [
-                            Center(child: Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: Text(''),
-                            )),
-                            Center(child: Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: Text(''),
-                            )),
-                            Center(child: Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: Text(''),
-                            )),
-                          ],
-                        ),
-                      const TableRow(
+                      );
+                    }).toList();
+
+                    return Directionality(
+                      textDirection: TextDirection.rtl,
+                      child: Table(
+                        border: TableBorder.all(color: Colors.black),
+                        columnWidths: const {
+                          0: FlexColumnWidth(2),
+                          1: FlexColumnWidth(3),
+                          2: FlexColumnWidth(2),
+                        },
                         children: [
-                          Center(
-                            child: Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: Text(''),
-                            ),
-                          ),
-                          Center(
-                            child: Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: Text(''),
-                            ),
-                          ),
-                          Center(
-                            child: Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: Text(''),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const TableRow(
-                        children: [
-                          Center(
-                            child: Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: Text(
-                                'مجموع الساعات',
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                          const TableRow(
+                            decoration: BoxDecoration(color: Colors.grey),
+                            children: [
+                              Center(
+                                child: Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: Text('الكود',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold)),
+                                ),
                               ),
-                            ),
+                              Center(
+                                child: Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: Text('المادة',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold)),
+                                ),
+                              ),
+                              Center(
+                                child: Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: Text('الساعات',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold)),
+                                ),
+                              ),
+                            ],
                           ),
-                          SizedBox.shrink(), // Empty cell to span
-                          SizedBox.shrink(), // Empty cell to span
+                          ...tableRows, // Add the dynamically generated rows
                         ],
                       ),
-                    ],
-                  ),
+                    );
+                  },
                 ),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.04),
                 customRowButton(context: context, padding: 0.0),
