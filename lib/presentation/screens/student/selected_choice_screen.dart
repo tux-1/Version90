@@ -1,13 +1,40 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class SelectedChoiceScreen extends StatelessWidget {
   final String selectedChoice;
 
-  const SelectedChoiceScreen({Key? key, required this.selectedChoice})
+  SelectedChoiceScreen({Key? key, required this.selectedChoice})
       : super(key: key);
+
+  final Map<int, Map<String, String>> subjects = {
+    0: {
+      'HE1234': 'Maths 1',
+      'HE5678': 'English',
+    },
+    1: {
+      'HE2345': 'Maths 2',
+      'HE6789': 'Electronics',
+    },
+    2: {
+      'HE3456': 'Digital Electronics',
+    },
+    3: {
+      'HE7890': 'Networks',
+    },
+    4: {
+      'HE4567': 'Artificial Intelligence',
+    },
+  };
 
   @override
   Widget build(BuildContext context) {
+    // Extract the last character from the selectedChoice string
+    int level = int.tryParse(selectedChoice.split(' ').last) ?? 0;
+    // Get the subjects for the selected level
+    Map<String, String> levelSubjects = subjects[level] ?? {};
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Selected Choice: $selectedChoice'),
@@ -35,43 +62,56 @@ class SelectedChoiceScreen extends StatelessWidget {
                   DataColumn(label: Text('المادة')),
                   DataColumn(label: Text('الكود')),
                 ],
-                rows:  [
-                  DataRow(cells: [
-                    DataCell(IconButton(onPressed: (){}, icon: const Icon(Icons.add))),
-                    const DataCell(Icon(Icons.close, color: Colors.red)),
-                    const DataCell(Text('3')),
-                    const DataCell(Text('مادة 1')),
-                    const DataCell(Text('HE51')),
-                  ]),
-                  DataRow(cells: [
-                    DataCell(IconButton(onPressed: (){}, icon: const Icon(Icons.add))),
+                rows: levelSubjects.entries.map((entry) {
+                  return DataRow(cells: [
+                    DataCell(
+                      IconButton(
+                        onPressed: () async {
+                          final userId = FirebaseAuth.instance.currentUser?.uid;
+                          if (userId != null) {
+                            final studentDoc = await FirebaseFirestore.instance
+                                .collection('students')
+                                .doc(userId)
+                                .get();
+
+                            final currentSubjects = studentDoc.data()?['subjects'] ?? {};
+
+                            if (currentSubjects.length >= 2) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('You can only register up to 2 subjects.'),
+                                ),
+                              );
+                              return;
+                            }
+
+                            try {
+                              await FirebaseFirestore.instance
+                                  .collection('students')
+                                  .doc(userId)
+                                  .set({
+                                'subjects': {entry.key: entry.value}
+                              }, SetOptions(merge: true));
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text('${entry.value} added')),
+                              );
+                            } catch (e) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text('Failed to add subject')),
+                              );
+                            }
+                          }
+                        },
+                        icon: const Icon(Icons.add),
+                      ),
+                    ),
                     const DataCell(Icon(Icons.check, color: Colors.green)),
-                    const DataCell(Text('2')),
-                    const DataCell(Text('مادة 2')),
-                    const DataCell(Text('HE63')),
-                  ]),
-                  DataRow(cells: [
-                    DataCell(IconButton(onPressed: (){}, icon: const Icon(Icons.add))),
-                    const DataCell(Icon(Icons.close, color: Colors.red)),
-                    const DataCell(Text('4')),
-                    const DataCell(Text('مادة 3')),
-                    const DataCell(Text('HE02')),
-                  ]),
-                  DataRow(cells: [
-                    DataCell(IconButton(onPressed: (){}, icon: const Icon(Icons.add))),
-                    const DataCell(Icon(Icons.close, color: Colors.red)),
-                    const DataCell(Text('4')),
-                    const DataCell(Text('مادة 4')),
-                    const DataCell(Text('HE53')),
-                  ]),
-                  DataRow(cells: [
-                    DataCell(IconButton(onPressed: (){}, icon: const Icon(Icons.add))),
-                    const DataCell(Icon(Icons.close, color: Colors.red)),
-                    const DataCell(Text('5')),
-                    const DataCell(Text('مادة 5')),
-                    const DataCell(Text('HE17')),
-                  ]),
-                ],
+                    const DataCell(
+                        Text('3')), // Assuming each subject is 3 hours
+                    DataCell(Text(entry.value)),
+                    DataCell(Text(entry.key)),
+                  ]);
+                }).toList(),
               ),
             ),
           ],

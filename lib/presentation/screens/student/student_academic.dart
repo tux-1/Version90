@@ -9,6 +9,8 @@ import 'package:faculty_project/presentation/widget/student_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'selected_choice_screen.dart';
+
 class StudentAcademicScreen extends StatelessWidget {
   const StudentAcademicScreen({super.key});
 
@@ -59,30 +61,29 @@ class StudentAcademicScreen extends StatelessWidget {
                               height: 10.0,
                             ),
                             isExpanded: false,
-                            // hint: const Text(
-                            //   'اختر النوع',
-                            //   style: TextStyle(
-                            //     color: AppColor.babyBlue,
-                            //     fontSize: 18,
-                            //     fontFamily: 'cairo',
-                            //     fontWeight:
-                            //     FontWeight.w700,
-                            //   ),
-                            // ),
                             items: studentCubit.academicyearList
                                 .map((String item) => DropdownMenuItem<String>(
-                                      value: item,
-                                      child: Text(
-                                        item,
-                                        style: TextStyles
-                                            .registerGenderListItemStyle,
-                                      ),
-                                    ))
+                              value: item,
+                              child: Text(
+                                item,
+                                style: TextStyles
+                                    .registerGenderListItemStyle,
+                              ),
+                            ))
                                 .toList(),
                             value: studentCubit.selectedModarag,
                             onChanged: (String? value) {
-                              studentCubit.selectacademicyear = value!;
-                              studentCubit.changeSelectedModarag(value);
+                              if (value != null) {
+                                studentCubit.changeSelectedModarag(value);
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => SelectedChoiceScreen(
+                                      selectedChoice: value,
+                                    ),
+                                  ),
+                                );
+                              }
                             },
                             buttonStyleData: const ButtonStyleData(
                               padding: EdgeInsets.symmetric(
